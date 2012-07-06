@@ -1,0 +1,15 @@
+Open-source platform webgame
+
+Author Danny Hendrix
+
+This game gives an example of a setup for a HTML5 game. The game is written in Dart (http://www.dartlang.org/). 
+
+Demo is available on http://www.dannyhendrix.com/dart/platformgame .
+
+To improve performance, the level is buildup from tiles. Objects move from tile to tile, only the tiles that have changed are repainted each frame. 
+Objects are pre-rendered on separate canvases.
+
+More information on performance improvements used in this game:
+http://www.html5rocks.com/en/tutorials/canvas/performance/ 
+
+Feedback is always welcome :).

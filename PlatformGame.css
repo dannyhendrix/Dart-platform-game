@@ -1,0 +1,103 @@
+body 
+{
+	background-color: #eee;
+	margin:0px;
+	
+	text-align:center;
+  
+	font-size:14px;
+	color:#000;
+	font-family: Arial;
+}
+
+#game
+{
+	margin-top:38px;
+	//border:3px solid #000;
+	background: #0d2648 url("resources/images/bgDark.png") repeat-x bottom left;
+}
+
+#messages
+{
+	position:absolute;
+	top:38px;
+	left:0px;
+	right:0px;
+	background: #c00;
+	padding:10px;
+	color:#fff;
+}
+
+#openscreen
+{
+	text-align:center;
+	color:#000;
+	margin:100px;
+}
+
+#openscreen table
+{
+	margin: 0px auto;
+	text-align: left;
+}
+
+#openscreen table td
+{
+	padding:5px;
+}
+
+#nav
+{
+	margin:0px;
+	list-style:none;
+	position:absolute;
+	top:0px;
+	left:0px;
+	right:0px;
+	background:#222;
+	border-bottom:1px solid #000;
+	color:#fff;
+	padding:10px;
+	font-size:12px;
+	height:18px;
+	color:#fff;
+}
+
+#nav li
+{
+	float:left;
+	border-right:1px solid #555;
+	padding:0px 20px;
+	height:18px;
+}
+
+#nav li:last-child
+{
+	border-right:0px;
+}
+
+#nav a 
+{
+	color:#fb0;
+}
+
+#loadingchar
+{
+	background: url("resources/images/c0v0a16t1uv1t80Cs1Cd.png");
+	margin:auto;
+	width:22px;
+	height:39px;
+}
+
+#openscreen button
+{
+	background:#222;
+	border-radius:5px;
+	padding: 5px 40px;
+	color:#fff;
+	border:0px;
+}
+#openscreen button:hover
+{
+	background:#444;
+}
