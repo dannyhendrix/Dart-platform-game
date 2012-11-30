@@ -1,23 +1,30 @@
 /**
 Platform game example
- 
+
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
+library Game;
 
-#import ("dart:html");
+import "dart:html";
+import "dart:math" as Math;
+import "Utils.dart";
 
-#import ("Render.dart");
-#import ("Camera.dart");
-#import ("MessageController.dart");
-#import ("level/Level.dart");
-#import ("renderobjects/gameobjects/Player.dart");
-#import ("renderobjects/gameobjects/GameObject.dart");
-
-#import ("../utils/PreLoader.dart");
-#import("../utils/JsonController.dart");
-#import("../utils/Vector.dart");
+part "Game/Camera.dart";
+part "Game/CollisionField.dart";
+part "Game/MessageController.dart";
+part "Game/Render.dart";
+part "Game/Level.dart";
+part "Game/LevelTile.dart";
+part "Game/RenderObject.dart";
+part "Game/RenderObject/GameObject.dart";
+part "Game/RenderObject/Player.dart";
+part "Game/RenderObject/Door.dart";
+part "Game/RenderObject/Flag.dart";
+part "Game/RenderObject/InteractiveObject.dart";
+part "Game/RenderObject/LevelObject.dart";
+part "Game/Sprite.dart";
+part "Game/AnimationFrames.dart";
 
 /**
 Main Game class
@@ -39,8 +46,8 @@ class Game
 
   //framerate
   int frames = 0;
-  int lastTime;
-  int time = 0;
+  double lastTime;
+  double time = 0.0;
   int fps = 0;
   
   static final int GRAVITY = 8;
@@ -78,15 +85,14 @@ class Game
     
     //messy jquery style code YAY!
     dombutton.on.click.add((e)
-    {
-      main.style.opacity = "0.0";
-      window.setTimeout(()
-      {
-        main.remove(); 
-        startGame();
-        }, 500);
-    });
-    
+        {
+        main.style.opacity = "0.0";
+        window.setTimeout(()
+          {
+          main.remove(); 
+          startGame();
+          }, 500);
+        });
     main.nodes.add(dombutton);
   }
   
@@ -159,31 +165,33 @@ class Game
     goToLevel("resources/levels/level_$currentlevel.json");
   }
 
-  bool loop(int looptime)
+  void loop(double looptime)
   {
-    if(stop == true)
-      return false;
-    if(lastTime == null)
-      lastTime = looptime;
-
-    update(looptime);
-
-    //framerate
-    int now = looptime;//(new Date.now()).value;
-    int delta = now-lastTime;
-    lastTime = now;
-    time += delta;
-    frames++;
-    if(time > 1000)
+    if(stop != true)
     {
-      fps = (1000*frames/time).toInt();
-      time = 0;
-      frames = 0;
-    }
+      if(lastTime == null)
+        lastTime = looptime;
+
+      update(looptime);
+
+      //framerate
+      double now = looptime;//(new Date.now()).value;
+      double delta = now-lastTime;
+      lastTime = now;
+      time += delta;
+      frames++;
+      if(time > 1000)
+      {
+        fps = (1000*frames/time).toInt();
+        time = 0.0;
+        frames = 0;
+      }
     
-    window.requestAnimationFrame(loop);
+      window.requestAnimationFrame(loop);
+    }
   }
-  void update(int looptime)
+
+  void update(double looptime)
   {
     for(int i = 0; i < gameobjects.length; i++)
       gameobjects[i].update(lastTime, looptime);
