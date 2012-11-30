@@ -4,13 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('Utils');
-
-#import("dart:html");
-#import("dart:json");
-
-#import("ImageController.dart");
-#import("JsonController.dart");
+part of Utils;
 
 /**
 load resources, calls a callback when all resources are loaded
