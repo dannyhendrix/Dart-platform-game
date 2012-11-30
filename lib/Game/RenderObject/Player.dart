@@ -4,18 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("GameObject.dart");
-#import("../RenderObject.dart");
-#import("../levelobjects/InteractiveObject.dart");
-#import("../../Game.dart");
-#import("../../CollisionField.dart");
-#import("../../sprite/Sprite.dart");
-#import("../../sprite/AnimationFrames.dart");
-
-#import("../../level/LevelTile.dart");
-#import("../../../utils/Vector.dart");
+part of Game;
 
 /**
 Player class
@@ -23,20 +12,20 @@ Player class
 class Player extends GameObject
 {
   //controls states
-  static final int MOVE_LEFT = 1;
-  static final int MOVE_RIGHT = 2;
-  static final int MOVE_JUMP = 3;
-  static final int MOVE_JUMP2 = 4;
+  static const int MOVE_LEFT = 1;
+  static const int MOVE_RIGHT = 2;
+  static const int MOVE_JUMP = 3;
+  static const int MOVE_JUMP2 = 4;
   
-  static final int LOOK_LEFT = 0;
-  static final int LOOK_RIGHT = 1;
+  static const int LOOK_LEFT = 0;
+  static const int LOOK_RIGHT = 1;
   
   //character states
-  static final int STATE_DEF = 0;
-  static final int STATE_WALK = 1;
-  static final int STATE_JUMP = 2;
-  static final int STATE_JUMP2 = 3;
-  static final int STATE_INAIR = 4;
+  static const int STATE_DEF = 0;
+  static const int STATE_WALK = 1;
+  static const int STATE_JUMP = 2;
+  static const int STATE_JUMP2 = 3;
+  static const int STATE_INAIR = 4;
   
   int look = LOOK_RIGHT;
   int state = STATE_INAIR;
@@ -95,7 +84,7 @@ class Player extends GameObject
     layer.width = w;
     
     layer.ctx.fillRect(0, 0, w, 16);
-    layer.ctx.setFillColor("#fff");
+    layer.ctx.setFillColorRgb(255,255,255);
     layer.ctx.fillText(name, padding, 12);
   }
   
@@ -146,12 +135,12 @@ class Player extends GameObject
     game.resetLevel();
   }
   
-  void update(int lastTime, int looptime)
+  void update(double lastTime, double looptime)
   {
     // default the player does not move, otherwise use the last move action in the array (see setMove)
     int move = -1;
     if(movepriority.length > 0)
-      move = movepriority.last();
+      move = movepriority.last;
     setState(move);
     
     prev_x = x;
@@ -159,7 +148,7 @@ class Player extends GameObject
 
     //movement is based on fps to make it smooth
     //16 was the original fps
-    int diff = looptime-lastTime;
+    double diff = looptime-lastTime;
     double add = (16*_step)/1000*diff;
     
     double gravity = Math.min(Game.GRAVITY.toDouble(), 16*Game.GRAVITY/1000*diff);
@@ -291,11 +280,11 @@ class Player extends GameObject
       return;
     healthchanged = false;
     
-    layer.ctx.setFillColor("#000");
+    layer.ctx.setFillColorRgb(0,0,0);
     layer.ctx.fillRect(labeloffset, 0+labelheight, 22, 6);
     
     int healthw = ((22-2/100) * health).floor().toInt();
-    layer.ctx.setFillColor("#0f0");
+    layer.ctx.setFillColorRgb(0,255,0);
     layer.ctx.fillRect(labeloffset+1, 1+labelheight, healthw, 4);
   }
   
