@@ -4,11 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("../../Game.dart");
-#import("LevelObject.dart");
-#import("../gameobjects/GameObject.dart");
+part of Game;
 
 class InteractiveObject extends LevelObject
 {
