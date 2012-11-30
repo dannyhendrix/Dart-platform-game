@@ -227,7 +227,7 @@ class Player extends GameObject
     }
   }
 
-  void handleState(double add, int looptime, int framerate, double gravity)
+  void handleState(double add, double looptime, int framerate, double gravity)
   {
     switch(state)
     {

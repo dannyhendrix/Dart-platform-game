@@ -4,7 +4,7 @@ import "dart:html";
 import "dart:json";
 import "dart:math" as Math;
 
-part "Utils/Preloader.dart";
+part "Utils/PreLoader.dart";
 part "Utils/JsonController.dart";
 part "Utils/ImageController.dart";
 part "Utils/RenderLayer.dart";
