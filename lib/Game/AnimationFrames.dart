@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
+part of Game;
 
 /**
 Simple class for holding animation indexes
