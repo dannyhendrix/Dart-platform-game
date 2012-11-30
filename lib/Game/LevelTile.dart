@@ -4,14 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("Level.dart");
-#import("../CollisionField.dart");
-#import("../renderobjects/RenderObject.dart");
-#import("../sprite/Sprite.dart");
-
-#import("../../utils/RenderLayer.dart");
+part of Game;
 
 class LevelTile
 {
