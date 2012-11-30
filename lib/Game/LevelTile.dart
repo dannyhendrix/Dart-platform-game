@@ -4,14 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("Level.dart");
-#import("../CollisionField.dart");
-#import("../renderobjects/RenderObject.dart");
-#import("../sprite/Sprite.dart");
-
-#import("../../utils/RenderLayer.dart");
+part of Game;
 
 class LevelTile
 {
@@ -39,7 +32,7 @@ class LevelTile
     else
       setCollision(false);
   }
-  int get tileid() => _tileid;
+  int get tileid => _tileid;
 
   LevelTile(this.x, this.y, this.level, this._tileid)
   {

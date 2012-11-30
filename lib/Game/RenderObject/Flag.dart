@@ -4,12 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("InteractiveObject.dart");
-#import("../../Game.dart");
-#import("../gameobjects/GameObject.dart");
-#import("../../sprite/Sprite.dart");
+part of Game;
 
 class Flag extends InteractiveObject
 {

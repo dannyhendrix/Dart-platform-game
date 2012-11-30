@@ -4,11 +4,8 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import('dart:html');
-
-#import('game/Game.dart');
+import 'dart:html';
+import 'lib/Game.dart';
 
 void main() 
 {

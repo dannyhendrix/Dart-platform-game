@@ -4,9 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("dart:html");
+part of Game;
 
 /**
 Display messages during the game in a pop-up 

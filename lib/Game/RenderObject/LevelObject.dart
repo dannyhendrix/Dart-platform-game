@@ -4,13 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("dart:html");
-
-#import("../../Game.dart");
-#import("../RenderObject.dart");
-#import("../../sprite/Sprite.dart");
+part of Game;
 
 /**
 Base object for level objects

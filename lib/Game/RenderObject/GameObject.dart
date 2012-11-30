@@ -4,22 +4,13 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("dart:html");
-
-#import("../RenderObject.dart");
-#import("../../Game.dart");
-#import("../../sprite/AnimationFrames.dart");
-#import("../../CollisionField.dart");
-
-#import("../../../utils/Vector.dart");
+part of Game;
 
 class GameObject extends RenderObject
 {
   int frame = 0;
   int frameY = 0;
-  int lastframeupdate = 0;
+  double lastframeupdate = 0.0;
   Vector vector;
   bool onPlatform = false;
 
@@ -31,7 +22,7 @@ class GameObject extends RenderObject
 
   AnimationFrames currentAnimation;
 
-  void update(int lastTime, int looptime)
+  void update(double lastTime, double looptime)
   {
   }
   
@@ -134,13 +125,13 @@ class GameObject extends RenderObject
   }
 
 
-  bool changeImage(AnimationFrames changeTo, int looptime, int framerate)
+  bool changeImage(AnimationFrames changeTo, double looptime, int framerate)
   {
     int oldframe = frame;
     // next frame?
     if (currentAnimation == changeTo)
     {
-      int diff = looptime - lastframeupdate;
+      double diff = looptime - lastframeupdate;
       //per 20 frames add 1
       int updateframe = (1000 / framerate).toInt();
       if(diff < updateframe)

@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('Utils');
+part of Utils;
 
 /**
 Simple vector class

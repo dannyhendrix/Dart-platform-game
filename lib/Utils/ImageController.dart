@@ -4,9 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('Utils');
-
-#import("dart:html");
+part of Utils;
 
 /**
 image resources holder
