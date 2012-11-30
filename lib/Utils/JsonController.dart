@@ -4,10 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('Utils');
-
-#import("dart:html");
-#import("dart:json");
+part of Utils;
 
 /**
 Json resources holder
@@ -29,7 +26,7 @@ class JsonController
     if(json_objects == null)
       json_objects = new Map<String, Map>();
     
-    new XMLHttpRequest.get(file, (XMLHttpRequest req){
+    new HttpRequest.get(file, (HttpRequest req){
       json_objects[file] = JSON.parse(req.responseText);
       callback();
     });
