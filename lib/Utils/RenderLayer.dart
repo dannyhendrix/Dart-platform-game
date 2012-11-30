@@ -4,9 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('Utils');
-
-#import("dart:html");
+part of Utils;
 
 /**
 Makes it easier to work with canvases, you can always access the canvas and ctx resource
@@ -31,8 +29,8 @@ class RenderLayer
   set width(int value) => canvas.width = value;
   set height(int value) => canvas.height = value;
 
-  int get height() => canvas.height;
-  int get width() => canvas.width;
+  int get height => canvas.height;
+  int get width => canvas.width;
 
   void clear()
   {
