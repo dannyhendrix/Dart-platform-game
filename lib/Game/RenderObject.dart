@@ -4,13 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("../Game.dart");
-#import("../CollisionField.dart");
-#import("../level/LevelTile.dart");
-
-#import("../../utils/RenderLayer.dart");
+part of Game;
 
 /**
 Base class for all objects
@@ -30,18 +24,18 @@ class RenderObject
   CollisionField collision;
   RenderLayer layer;
 
-  double get collisionx() => x+collision.x;
-  double get collisiony() => y+collision.y;
-  double get collisionx2() => x+collision.x2;
-  double get collisiony2() => y+collision.y2;
-  double get collisionmidpointy() => y+collision.midpointy;
-  double get collisionmidpointx() => x+collision.x + (collision.w/2).toInt();
+  double get collisionx => x+collision.x;
+  double get collisiony => y+collision.y;
+  double get collisionx2 => x+collision.x2;
+  double get collisiony2 => y+collision.y2;
+  double get collisionmidpointy => y+collision.midpointy;
+  double get collisionmidpointx => x+collision.x + (collision.w/2).toInt();
 
-  int get objectTileX() => (x/32).floor().toInt();
-  int get objectTileY() => (y/32).floor().toInt();
+  int get objectTileX => (x/32).floor().toInt();
+  int get objectTileY => (y/32).floor().toInt();
 
-  int get objectTileEndX() => ((x + w)/32).ceil().toInt();
-  int get objectTileEndY() => ((y + h)/32).ceil().toInt();
+  int get objectTileEndX => ((x + w)/32).ceil().toInt();
+  int get objectTileEndY => ((y + h)/32).ceil().toInt();
 
   RenderObject(this.game,this.x,this.y,this.w,this.h)
   {
