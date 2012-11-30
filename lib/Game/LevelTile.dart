@@ -32,7 +32,7 @@ class LevelTile
     else
       setCollision(false);
   }
-  int get tileid() => _tileid;
+  int get tileid => _tileid;
 
   LevelTile(this.x, this.y, this.level, this._tileid)
   {
