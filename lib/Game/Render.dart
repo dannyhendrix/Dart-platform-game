@@ -4,12 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("dart:html");
-
-#import("Game.dart");
-#import("../utils/RenderLayer.dart");
+part of Game;
 
 /**
 Renders the game (main canvas)
@@ -39,7 +34,7 @@ class Render
 
     this.game = g;
   }
-  void update(int lastTime,int looptime)
+  void update(double lastTime,double looptime)
   {
     layer.clear();
 
