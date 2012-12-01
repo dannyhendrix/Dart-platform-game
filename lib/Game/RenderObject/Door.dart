@@ -4,15 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import("dart:html");
-
-#import("InteractiveObject.dart");
-#import("../../Game.dart");
-#import("../gameobjects/GameObject.dart");
-#import("../gameobjects/Player.dart");
-#import("../../sprite/Sprite.dart");
+part of Game;
 
 class Door extends InteractiveObject
 {
@@ -49,7 +41,7 @@ class Door extends InteractiveObject
     layer.width = w;
     
     layer.ctx.fillRect(0, 0, w, 16);
-    layer.ctx.setFillColor("#fff");
+    layer.ctx.setFillColorRgb(255, 255, 255);
     layer.ctx.fillText(name, padding, 12);
   }
 

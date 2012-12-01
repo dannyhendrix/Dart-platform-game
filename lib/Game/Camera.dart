@@ -4,10 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
-
-#import ("Game.dart");
-#import ("renderobjects/gameobjects/GameObject.dart");
+part of Game;
 
 class Camera
 {

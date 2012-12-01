@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-#library('PlatformGame');
+part of Game;
 
 
 /**
@@ -22,12 +22,12 @@ class CollisionField
   CollisionField(this.x,this.y,this.w,this.h);
 
   set x2(int value) => w = value-x;
-  int get x2() => x+w;
+  int get x2 => x+w;
   set y2(int value) => h = value-y;
-  int get y2() => y+h;
+  int get y2 => y+h;
 
   set midpointy(int value) => _midpointy = value;
-  int get midpointy()
+  int get midpointy
   {
     if(_midpointy == -1)
       return (y + h/2).toInt();
@@ -35,7 +35,7 @@ class CollisionField
   }
 
   set midpointx(int value) => _midpointx = value;
-  int get midpointx()
+  int get midpointx
   {
     if(_midpointx == -1)
       return (x + w/2).toInt();
