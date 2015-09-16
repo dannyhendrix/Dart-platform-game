@@ -26,8 +26,9 @@ class JsonController
     if(json_objects == null)
       json_objects = new Map<String, Map>();
     
-    new HttpRequest.get(file, (HttpRequest req){
-      json_objects[file] = JSON.parse(req.responseText);
+    HttpRequest.getString(file).then((String jsonText)
+    {
+      json_objects[file] = JSON.decode(jsonText);
       callback();
     });
   }

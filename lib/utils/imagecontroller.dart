@@ -23,7 +23,7 @@ class ImageController
     _images[url] = img;
     
     if(callback != null)
-      img.on.load.add(callback);
+      img.onLoad.listen(callback);
     return img;
   }
   

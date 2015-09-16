@@ -114,7 +114,8 @@ class LevelTile
 
     if(index == -1)
       return;
-    objects.removeRange(index, 1);
+    objects.removeAt(index);
+    //objects.removeRange(index, 1);
     if(objects.length == 0)
       objects = null;
     changed = true;

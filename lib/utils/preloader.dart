@@ -38,7 +38,7 @@ class PreLoader
   {
     files++;
     ImageElement img = ImageController.loadImage(file);
-    img.on.load.add((event){ fileloaded(); });
+    img.onLoad.listen((event){ fileloaded(); });
   }
   
   void loadJson(String file)

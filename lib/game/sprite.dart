@@ -22,6 +22,6 @@ class Sprite
 
   drawOnPosition(int x, int y, int frameX, int frameY, RenderLayer targetlayer)
   {
-    targetlayer.ctx.drawImage(img,frameX * framew + spritex,frameY * frameh + spritey,framew,frameh, x,y,framew,frameh);
+    targetlayer.ctx.drawImageScaledFromSource(img,frameX * framew + spritex,frameY * frameh + spritey,framew,frameh, x,y,framew,frameh);
   }
 }

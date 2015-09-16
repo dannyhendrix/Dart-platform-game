@@ -8,23 +8,26 @@ library Game;
 
 import "dart:html";
 import "dart:math" as Math;
-import "Utils.dart";
+import 'dart:async';
 
-part "Game/Camera.dart";
-part "Game/CollisionField.dart";
-part "Game/MessageController.dart";
-part "Game/Render.dart";
-part "Game/Level.dart";
-part "Game/LevelTile.dart";
-part "Game/RenderObject.dart";
-part "Game/RenderObject/GameObject.dart";
-part "Game/RenderObject/Player.dart";
-part "Game/RenderObject/Door.dart";
-part "Game/RenderObject/Flag.dart";
-part "Game/RenderObject/InteractiveObject.dart";
-part "Game/RenderObject/LevelObject.dart";
-part "Game/Sprite.dart";
-part "Game/AnimationFrames.dart";
+
+import 'utils.dart';
+
+part 'game/camera.dart';
+part 'game/collisionfield.dart';
+part 'game/messagecontroller.dart';
+part 'game/render.dart';
+part 'game/level.dart';
+part 'game/leveltile.dart';
+part 'game/renderobject.dart';
+part 'game/renderobject/gameobject.dart';
+part 'game/renderobject/player.dart';
+part 'game/renderobject/door.dart';
+part 'game/renderobject/flag.dart';
+part 'game/renderobject/interactiveobject.dart';
+part 'game/renderobject/levelobject.dart';
+part 'game/sprite.dart';
+part 'game/animationframes.dart';
 
 /**
 Main Game class
@@ -76,22 +79,22 @@ class Game
   {
     //when loading has finsished, display a start button
     ButtonElement dombutton = new ButtonElement();
-    DivElement main = document.query("#openscreen");
+    DivElement main = document.querySelector("#openscreen");
     main.style.transition = "opacity 0.5s ease-in-out";
 
-    document.query("#loading").text = "";
+    document.querySelector("#loading").text = "";
     
     dombutton.text = "Start!";
     
     //messy jquery style code YAY!
-    dombutton.on.click.add((e)
+    dombutton.onClick.listen((e)
         {
         main.style.opacity = "0.0";
-        window.setTimeout(()
+        new Timer(const Duration(milliseconds: 500),()
           {
           main.remove(); 
           startGame();
-          }, 500);
+          });
         });
     main.nodes.add(dombutton);
   }
@@ -125,7 +128,7 @@ class Game
     //verticaly center the game
     int offsettop = 38;
     if(camera.h == level.h)
-      offsettop = ((window.innerHeight - 44 - camera.h)/2).toInt();
+      offsettop = (window.innerHeight - 44 - camera.h)~/2;
     
     render.layer.canvas.style.marginTop = "${offsettop}px";
     
@@ -182,7 +185,7 @@ class Game
       frames++;
       if(time > 1000)
       {
-        fps = (1000*frames/time).toInt();
+        fps = (1000*frames)~/time;
         time = 0.0;
         frames = 0;
       }

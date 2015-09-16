@@ -1,2 +1,10 @@
-*.swp
-*~
+.buildlog
+.DS_Store
+.idea
+.project
+.packages
+.settings/
+.pub/
+build/
+packages
+pubspec.lock

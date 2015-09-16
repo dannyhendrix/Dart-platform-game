@@ -102,11 +102,18 @@ class Player extends GameObject
     the key that is pressed first is first in the array. The key that 
     is last in the array is handled.
     */
+    
+    /*
     int index = movepriority.indexOf(move);
     if(index > -1)
       movepriority.removeRange(index, 1);
     if(activate == true)
       movepriority.add(move);
+    */
+    
+    movepriority.remove(move);
+    if(activate == true)
+        movepriority.add(move);
   }
   
   void addHealth(double add)

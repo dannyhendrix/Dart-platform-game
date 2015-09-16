@@ -5,12 +5,12 @@ Platform game example
 **/
 
 import 'dart:html';
-import 'lib/Game.dart';
+import 'package:dart_platform_game/game.dart';
 
 void main() 
 {
   Game game = new Game();
   game.start();
-  document.on.keyDown.add(game.handleKey);
-  document.on.keyUp.add(game.handleKey);
+  document.onKeyDown.listen(game.handleKey);
+  document.onKeyUp.listen(game.handleKey);
 }

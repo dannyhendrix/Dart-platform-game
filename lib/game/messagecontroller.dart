@@ -13,7 +13,8 @@ class MessageController
 {
   List<String> messages;
   DivElement dommessages;
-  int timeout;
+  //int timeout;
+  Timer timeout;
   bool showing = false;
   
   MessageController(): messages = new List<String>()
@@ -24,7 +25,7 @@ class MessageController
     //fade-in-out effect
     dommessages.style.transition = "opacity 0.5s ease-in-out";
 
-    document.body.elements.add(dommessages);
+    document.body.append(dommessages);
   }
   
   void sendMessage(String message)
@@ -36,17 +37,22 @@ class MessageController
   void displayMessages()
   {
     if(showing == true)
-      dommessages.innerHTML = "${dommessages.innerHTML}<br/>${messages[0]}";
+      dommessages.innerHtml = "${dommessages.innerHtml}<br/>${messages[0]}";
     else
-      dommessages.innerHTML = messages[0];
+      dommessages.innerHtml = messages[0];
     
     showing = true;
     messages.removeRange(0, 1);
     
     dommessages.style.opacity = "1.0";
+    /*
     if(timeout != null)
       window.clearTimeout(timeout);
     timeout = window.setTimeout(hideMessages, 5000);
+     */
+    if(timeout != null)
+      timeout.cancel();
+    timeout = new Timer(const Duration(milliseconds: 500),hideMessages);
   }
   
   void hideMessages()
@@ -56,6 +62,7 @@ class MessageController
     dommessages.style.opacity = "0.0";
     if(messages.length == 0)
       return;
-    timeout = window.setTimeout(displayMessages, 500);
+    //timeout = window.setTimeout(displayMessages, 500);
+    timeout = new Timer(const Duration(milliseconds: 500),displayMessages);
   }
 }

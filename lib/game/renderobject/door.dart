@@ -75,8 +75,8 @@ class Door extends InteractiveObject
       window.location.assign(link);
     if(linkspl[0] == "map")
     {
-      object.x = Math.parseDouble(linkspl[1]);
-      object.y = Math.parseDouble(linkspl[2]);
+      object.x = double.parse(linkspl[1]);
+      object.y = double.parse(linkspl[2]);
       if(object is Player)
       {
         Player p = object;
@@ -86,6 +86,6 @@ class Door extends InteractiveObject
     if(linkspl[0] == "level")
       game.goToLevel(linkspl[1]);
     if(linkspl[0] == "levelid")
-      game.goToLevelid(Math.parseInt(linkspl[1]));
+      game.goToLevelid(int.parse(linkspl[1]));
   }
 }
