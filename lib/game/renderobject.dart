@@ -29,7 +29,7 @@ class RenderObject
   double get collisionx2 => x+collision.x2;
   double get collisiony2 => y+collision.y2;
   double get collisionmidpointy => y+collision.midpointy;
-  double get collisionmidpointx => x+collision.x + (collision.w/2).toInt();
+  double get collisionmidpointx => x+collision.x + (collision.w~/2);
 
   int get objectTileX => (x/32).floor().toInt();
   int get objectTileY => (y/32).floor().toInt();

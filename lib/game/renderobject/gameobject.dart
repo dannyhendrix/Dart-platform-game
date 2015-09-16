@@ -10,7 +10,7 @@ class GameObject extends RenderObject
 {
   int frame = 0;
   int frameY = 0;
-  double lastframeupdate = 0.0;
+  int lastframeupdate = 0;
   Vector vector;
   bool onPlatform = false;
 
@@ -22,7 +22,7 @@ class GameObject extends RenderObject
 
   AnimationFrames currentAnimation;
 
-  void update(double lastTime, double looptime)
+  void update()
   {
   }
   
@@ -125,19 +125,17 @@ class GameObject extends RenderObject
   }
 
 
-  bool changeImage(AnimationFrames changeTo, double looptime, int framerate)
+  bool changeImage(AnimationFrames changeTo)
   {
     int oldframe = frame;
     // next frame?
     if (currentAnimation == changeTo)
     {
-      double diff = looptime - lastframeupdate;
       //per 20 frames add 1
-      int updateframe = (1000 / framerate).toInt();
-      if(diff < updateframe)
+      lastframeupdate++;
+      if(lastframeupdate < currentAnimation.framerate)
         return false;
-      lastframeupdate = looptime;
-
+      lastframeupdate = 0;
       if (frame == changeTo.end)
         this.frame = changeTo.start;
       else

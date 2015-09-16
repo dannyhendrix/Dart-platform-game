@@ -8,7 +8,7 @@ part of Game;
 
 class Sprite
 {
-  final int spritex, spritey;
+  int spritex, spritey;
   final int framew, frameh;
   final ImageElement img;
 

@@ -43,7 +43,7 @@ class Player extends GameObject
   //object offset from left (caused by the label)
   int labeloffset;
   
-  bool changed = false;
+  bool framechanged = false;
   
   double health = 1.0;
   bool healthchanged = true;
@@ -52,9 +52,18 @@ class Player extends GameObject
   static final AnimationFrames _WALK = const AnimationFrames(3,5);
   static final AnimationFrames _STAND = const AnimationFrames(0,2);
   static final AnimationFrames _INAIR = const AnimationFrames(14,14);
+  
+  //vectors
+  static final Vector _JUMP1_LEFT = new Vector.fromAngle(235.0,6.0);
+  static final Vector _JUMP1_RIGHT = new Vector.fromAngle(305.0,6.0);
+  static final Vector _JUMP2_LEFT = new Vector.fromAngle(260.0,8.0);
+  static final Vector _JUMP2_RIGHT = new Vector.fromAngle(280.0,8.0);
+  
+  static final Vector _SPIKES_LEFT = new Vector.fromAngle(280.0,7.0);
+  static final Vector _SPIKES_RIGHT = new Vector.fromAngle(260.0,7.0);
 
   //walk speed
-  static final int _step = 10;
+  static final int _step = 3;
   
   InteractiveObject hoverobject;
 
@@ -129,7 +138,7 @@ class Player extends GameObject
     health = 1.0;
     healthchanged = true;
     hoverobject = null;
-    changed = true;
+    framechanged = true;
     changeState(STATE_INAIR);
   }
   
@@ -139,7 +148,7 @@ class Player extends GameObject
     game.resetLevel();
   }
   
-  void update(double lastTime, double looptime)
+  void update()
   {
     // default the player does not move, otherwise use the last move action in the array (see setMove)
     int move = -1;
@@ -150,53 +159,42 @@ class Player extends GameObject
     prev_x = x;
     prev_y = y;
 
-    //movement is based on fps to make it smooth
-    //16 was the original fps
-    double diff = looptime-lastTime;
-    double add = (16*_step)/1000*diff;
-    
-    double gravity = Math.min(Game.GRAVITY.toDouble(), 16*Game.GRAVITY/1000*diff);
+    handleState();
 
-    handleState(add, looptime, 10, gravity);
-    
-    //apply vector
-    x += 16*vector.xspeed/1000*diff;
-    y += 16*vector.yspeed/1000*diff;
-    
     bool moved = (x != prev_x || y != prev_y);
-    
-    //clear hoverobject?
-    if(hoverobject != null)
-    {
-      if( (
-          collisionx2 > hoverobject.collisionx
-          && collisionx < hoverobject.collisionx2
-          && collisiony2 > hoverobject.collisiony
-          && collisiony < hoverobject.collisiony2
-          ) == false
-      )
-      {
-        hoverobject.onOut(this);
-        hoverobject = null;
-      }
-    }
-    
+
     if(moved)
     {
+      //clear hoverobject?
+      if(hoverobject != null)
+      {
+        if( (
+            collisionx2 > hoverobject.collisionx
+            && collisionx < hoverobject.collisionx2
+            && collisiony2 > hoverobject.collisiony
+            && collisiony < hoverobject.collisiony2
+            ) == false
+        )
+        {
+          hoverobject.onOut(this);
+          hoverobject = null;
+        }
+      }
+  
       onPlatform = false;
       game.level.isCollision(this);
       if(onPlatform == false)
         changeState(STATE_INAIR);
       
-      changed = true;
+      framechanged = true;
       //set the camera position relative to the player
       game.camera.centerObject(this);
     }
     
     //redraw item
-    if(changed == true)
+    if(framechanged == true)
       updateDrawLocation();
-    changed = false;
+    framechanged = false;
   }
   
   void changeState(int newState)
@@ -231,43 +229,46 @@ class Player extends GameObject
     }
   }
 
-  void handleState(double add, double looptime, int framerate, double gravity)
+  void handleState()
   {
     switch(state)
     {
       case STATE_INAIR:
-        vector.yspeed += gravity;
-        changed = changeImage(_INAIR,looptime,framerate);
+        vector.yspeed += Game.GRAVITY;
+        framechanged = changeImage(_INAIR);
         break;
       case STATE_DEF:
-        changed = changeImage(_STAND,looptime,framerate);
+        framechanged = changeImage(_STAND);
         break;
       case STATE_WALK:
         if(look == LOOK_LEFT)
-          x -= add;
+          x -= _step;
         else
-          x += add;
-        changed = changeImage(_WALK,looptime,framerate);
+          x += _step;
+        framechanged = changeImage(_WALK);
         break;
       case STATE_JUMP:
         vector.clear();
         if(look == LOOK_LEFT)
-          this.vector.addVector(new Vector.fromAngle(235.0,20.0));
+          this.vector.addVector(_JUMP1_LEFT);
         else
-          this.vector.addVector(new Vector.fromAngle(305.0,20.0));
+          this.vector.addVector(_JUMP1_RIGHT);
         changeState(STATE_INAIR);
-        changed = changeImage(_INAIR,looptime,framerate);
+        framechanged = changeImage(_INAIR);
         break;
       case STATE_JUMP2:
         vector.clear();
         if(look == LOOK_LEFT)
-          this.vector.addVector(new Vector.fromAngle(260.0,30.0));
+          this.vector.addVector(_JUMP2_LEFT);
         else
-          this.vector.addVector(new Vector.fromAngle(280.0,30.0));
+          this.vector.addVector(_JUMP2_RIGHT);
         changeState(STATE_INAIR);
-        changed = changeImage(_INAIR,looptime,framerate);
+        framechanged = changeImage(_INAIR);
         break;
     }
+    //apply vector
+    x += vector.xspeed;
+    y += vector.yspeed;
   }
 
   void paint()
@@ -316,9 +317,9 @@ class Player extends GameObject
     {
       vector.clear();
       if(look == LOOK_LEFT)
-        this.vector.addVector(new Vector.fromAngle(280.0,30.0));
+        this.vector.addVector(_SPIKES_LEFT);
       else
-        this.vector.addVector(new Vector.fromAngle(260.0,30.0));
+        this.vector.addVector(_SPIKES_RIGHT);
       addHealth(-0.2);
     }
     

@@ -13,6 +13,7 @@ class AnimationFrames
 {
   final int start;
   final int end;
+  final int framerate;
 
-  const AnimationFrames(this.start,this.end);
+  const AnimationFrames(this.start,this.end, [this.framerate = 8]);
 }

@@ -18,18 +18,21 @@ class Game
   MessageController messages;
   bool showCollisionField = false;
   PreLoader loader;
-  bool stop = false;
+  GameLoop gameloop;
+  
+  //bool stop = false;
   
   int currentlevel = 0;
   String levelsource;
 
+  /*
   //framerate
   int frames = 0;
   double lastTime;
   double time = 0.0;
   int fps = 0;
-  
-  static final int GRAVITY = 4;
+  */
+  static final double GRAVITY = 0.3;
 
   Game() : render = new Render(), gameobjects = new List<GameObject>(), camera = new Camera()
   {
@@ -77,6 +80,7 @@ class Game
   
   void startGame()
   {
+    gameloop = new GameLoop(update);
     //create sprites
     //create gameobjects
     level.start();
@@ -87,7 +91,8 @@ class Game
     
     loadLevel();
 
-    window.requestAnimationFrame(loop);
+    //window.requestAnimationFrame(loop);
+    gameloop.play();
     
     messages.sendMessage("Hello there :). Messages will pop-up here.");
   }
@@ -143,38 +148,12 @@ class Game
     goToLevel("resources/levels/level_$currentlevel.json");
   }
 
-  void loop(double looptime)
-  {
-    if(stop != true)
-    {
-      if(lastTime == null)
-        lastTime = looptime;
-
-      update(looptime);
-
-      //framerate
-      double now = looptime;//(new Date.now()).value;
-      double delta = now-lastTime;
-      lastTime = now;
-      time += delta;
-      frames++;
-      if(time > 1000)
-      {
-        fps = (1000*frames)~/time;
-        time = 0.0;
-        frames = 0;
-      }
-    
-      window.requestAnimationFrame(loop);
-    }
-  }
-
-  void update(double looptime)
+  void update(int looptime)
   {
     for(int i = 0; i < gameobjects.length; i++)
-      gameobjects[i].update(lastTime, looptime);
+      gameobjects[i].update();
 
-    render.update(lastTime, looptime);
+    render.update();
   }
   
   void handleKey(KeyboardEvent event)
