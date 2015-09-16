@@ -16,21 +16,23 @@ class LevelTile
   int _tileid = 0;
   List<RenderObject> objects;
   bool changed = true;
-  CollisionField collision;
+  bool hascollision = false;
   Sprite sprite;
 
   RenderLayer layer;
 
   Level level;
   
+  static CollisionField TILE_COLLISIONFIELD = new CollisionField(0,0,32,32);
+  
   void set tileid(int value)
   {
     _tileid = value;
     sprite.spritex = (_tileid - 1) * 32;
     if(_tileid != 0)
-      setCollision(true);
+      hascollision = true;
     else
-      setCollision(false);
+      hascollision = false;
   }
   int get tileid => _tileid;
 
@@ -41,7 +43,7 @@ class LevelTile
     layer.height = h;
     
     if(_tileid != 0)
-      setCollision(true);
+      hascollision = true;
 
     sprite = new Sprite("resources/images/images.png",(_tileid - 1) * 32,0,32,32);
   }
@@ -51,7 +53,6 @@ class LevelTile
     if(objects == null)
       objects = new List<RenderObject>();
     objects.add(obj);
-    changed = true;
     repaint();
   }
   
@@ -64,47 +65,36 @@ class LevelTile
       return remove(obj);
     if(index == -1)
       return insert(obj);
-    changed = true;
     
     repaint();
   }
-  
-  void setCollision(bool value)
-  {
-    if(value == false)
-      collision = null;
-    else
-      collision = new CollisionField(0,0,w,h);
-  }
 
-  void isCollision(RenderObject obj)
+  void repairCollision(RenderObject obj)
   {
-    
-    if(collision != null)
+    if(hascollision)
     {
-        obj.checkTileCollision(this);
-        return;
+      obj.repairCollisionTile(this);
+      return;
     }
     if(objects == null)
       return;
-    
-    if( (
+    //check if the collisionfield of the object within the bounderies of this tile
+    if( !(
         obj.collisionx2 > x
         && obj.collisionx < x+w
         && obj.collisiony2+1 > y
         && obj.collisiony < y+h
-        ) == false
+        )
     )
     {
       return;
     }
-    RenderObject levelobject;
+    //loop through objects currently on this tile and check for collisions
     for(int i = 0; i < objects.length; i++)
     {
       if(objects[i] == obj)
         continue;
-      levelobject = objects[i];
-      obj.checkObjectCollision(levelobject);
+      obj.repairCollisionObject(objects[i]);
     }
   }
 
@@ -115,10 +105,9 @@ class LevelTile
     if(index == -1)
       return;
     objects.removeAt(index);
-    //objects.removeRange(index, 1);
     if(objects.length == 0)
       objects = null;
-    changed = true;
+    
     repaint();
   }
 
@@ -164,6 +153,9 @@ class LevelTile
 
   void repaint()
   {
+    if(changed)
+      return;
+    changed = true;
     level.updatetiles.add(this);
   }
 }

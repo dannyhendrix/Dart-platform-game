@@ -40,6 +40,6 @@ class Render
 
     game.level.draw(layer, game.camera.x, game.camera.y);
 
-    layer.ctx.fillText("FPS: ${game..gameloop.fps}", 10, 20);
+    layer.ctx.fillText("FPS: ${game.gameloop.fps}", 10, 20);
   }
 }

@@ -100,9 +100,9 @@ class Level
   {
   }
 
-  void isCollision(GameObject object)
+  void repairCollision(GameObject object)
   {
-    object.checkLevelBorderCollision();
+    object.repairLevelBorderCollision();
 
     int tileCollStartX = (object.collisionx/32).floor().toInt();
     int tileCollEndX = (object.collisionx2/32).ceil().toInt();
@@ -121,7 +121,7 @@ class Level
         intkey = iy * tilesx + ix;
         if(leveltiles.length <= intkey || intkey < 0)
           continue;
-        leveltiles[intkey].isCollision(object);
+        leveltiles[intkey].repairCollision(object);
       }
   }
 

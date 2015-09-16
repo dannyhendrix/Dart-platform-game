@@ -32,7 +32,7 @@ class Door extends InteractiveObject
     if(layerwidth > w)
     {
       w = layerwidth;
-      collision.x += ((w-25)/2).toInt();
+      collision.x += (w-25)~/2;
     }
     collision.y += layerheight;
     h += layerheight;
@@ -49,7 +49,7 @@ class Door extends InteractiveObject
   {
     int drawx = 0;
     if(w > 25)
-      drawx = ((w-25)/2).toInt();
+      drawx = (w-25)~/2;
     
     sprite.drawOnPosition(drawx,layerheight,(over == true)?1:0,0,layer);
   }

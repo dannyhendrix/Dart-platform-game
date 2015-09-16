@@ -50,7 +50,6 @@ class RenderObject
   
   void paint()
   {
-    
   }
 
   void drawCollision(RenderLayer targetlayer, int offsetx, int offsety)
@@ -78,19 +77,27 @@ class RenderObject
     targetlayer.ctx.drawImage(layer.canvas, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
   }
   
-  bool checkCollisionField(double relativex, double relativey, CollisionField collisionfield)
+  bool isCollisionField(double relativex, double relativey, CollisionField collisionfield)
   {
-    return false;
+    if(collision == null)
+      return false;
+    return
+        collisionx2 > relativex
+        && collisionx < relativex+collisionfield.x2
+        && collisiony2 > relativey
+        && collisiony < relativey+collisionfield.y2;
   }
-  
-  bool checkTileCollision(LevelTile tile)
+  void repairCollisionTile(LevelTile tile)
   {
-    return checkCollisionField(tile.x.toDouble(), tile.y.toDouble(),tile.collision);
   }
-  
-  bool checkObjectCollision(RenderObject o)
+  void repairCollisionObject(RenderObject obj)
   {
-    return checkCollisionField(o.x, o.y, o.collision);
+  }
+  void onTileCollision(LevelTile tile)
+  {
+  }
+  void onObjectCollision(RenderObject o)
+  {
   }
   
   void updateDrawLocation([bool remove = false])

@@ -26,102 +26,100 @@ class GameObject extends RenderObject
   {
   }
   
-  bool checkLevelBorderCollision()
+  void repairLevelBorderCollision()
   {
-    bool ret = false;
     if(collisionx2 > game.level.x+game.level.w)
-    {
       x = game.level.x+game.level.w-collision.x2;
-      ret = true;
-    }
     if(collisionx < game.level.x)
-    {
       x = game.level.x-collision.x;
-      ret = true;
-    }
     if(collisiony2 > game.level.y+game.level.h)
     {
       y = game.level.y+game.level.h-collision.y2;
       onPlatform = true;
-      ret = true;
     }
     if(collisiony < game.level.y)
-    {
       y = game.level.y-collision.y;
-       ret = true;
-    }
     
     if(collisiony2+1 > game.level.y+game.level.h)
       onPlatform = true;
-    return ret;
   }
-  
-  bool checkCollisionField(double relativex, double relativey, CollisionField collisionfield)
+  void repairCollisionTile(LevelTile tile)
+  {
+    if(isCollisionField(tile.x.toDouble(),tile.y.toDouble(),LevelTile.TILE_COLLISIONFIELD))
+      onTileCollision(tile);
+  }
+  void repairCollisionObject(RenderObject obj)
+  {
+    if(isCollisionField(obj.x,obj.y,obj.collision))
+      onObjectCollision(obj);
+  }
+
+  void onTileCollision(LevelTile tile)
   {
     //collision
     double dif_x = prev_x - x;
     double dif_y = prev_y - y;
-    
+    /*
     //if no collision, only check for platform
     if( (
-        collisionx2 > relativex
-        && collisionx < relativex+collisionfield.x2
-        && collisiony2 > relativey
-        && collisiony < relativey+collisionfield.y2
+        collisionx2 > tile.x
+        && collisionx < tile.x+tile.collision.x2
+        && collisiony2 > tile.y
+        && collisiony < tile.y+tile.collision.y2
         ) == false)
     {
       //no collision but it might be on top of the object
       if( (
-          collisionx2 > relativex
-          && collisionx < relativex+collisionfield.x2
-          && collisiony2+1 > relativey
-          && collisiony < relativey+collisionfield.y2
+          collisionx2 > tile.x
+          && collisionx < tile.x+tile.collision.x2
+          && collisiony2+1 > tile.y
+          && collisiony < tile.y+tile.collision.y2
           ) == true)
       {
           onPlatform = true;
       }
-      return false;
+      return;
     }
     //not moved:
     if(dif_x == 0 && dif_y == 0)
-        return false;
-    
+        return;
+    */
     double overlap_x = 0.0;
     double overlap_y = 0.0;
     
     if(dif_x > 0)//left
-      overlap_x = relativex + collisionfield.x2 - collisionx;
+      overlap_x = tile.x + LevelTile.TILE_COLLISIONFIELD.x2 - collisionx;
     if(dif_x < 0)//right
-      overlap_x = relativex + collisionfield.x - collisionx2;
+      overlap_x = tile.x + LevelTile.TILE_COLLISIONFIELD.x - collisionx2;
     if(dif_y > 0)//top
-      overlap_y = relativey + collisionfield.y2 - collisiony;
+      overlap_y = tile.y + LevelTile.TILE_COLLISIONFIELD.y2 - collisiony;
     if(dif_y < 0)//bottom
-      overlap_y = relativey + collisionfield.y - collisiony2;
+      overlap_y = tile.y + LevelTile.TILE_COLLISIONFIELD.y - collisiony2;
     
     double percentage = 0.0;
     double percentage_y = 0.0;
-
+  
     if(dif_x != 0)
       percentage = (dif_x - overlap_x) / dif_x;
     if(dif_y != 0)
       percentage_y = (dif_y - overlap_y) / dif_y;
     percentage = Math.max(percentage, percentage_y);
-
+  
     x = prev_x - (dif_x * percentage);
     y = prev_y - (dif_y * percentage);
-    
+
     //check if on platform after the obj moved
     if( (
-        collisionx2 > relativex
-        && collisionx < relativex+collisionfield.x2
-        && collisiony2+1 > relativey
-        && collisiony < relativey+collisionfield.y2
+        collisionx2 > tile.x
+        && collisionx < tile.x+LevelTile.TILE_COLLISIONFIELD.x2
+        && collisiony2+1 > tile.y
+        && collisiony < tile.y+LevelTile.TILE_COLLISIONFIELD.y2
         ) == true)
     {
         onPlatform = true;
     }
     
-    return true;
+    return;
   }
 
 

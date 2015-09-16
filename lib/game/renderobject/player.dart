@@ -108,15 +108,6 @@ class Player extends GameObject
     the key that is pressed first is first in the array. The key that 
     is last in the array is handled.
     */
-    
-    /*
-    int index = movepriority.indexOf(move);
-    if(index > -1)
-      movepriority.removeRange(index, 1);
-    if(activate == true)
-      movepriority.add(move);
-    */
-    
     movepriority.remove(move);
     if(activate == true)
         movepriority.add(move);
@@ -156,40 +147,41 @@ class Player extends GameObject
       move = movepriority.last;
     setState(move);
     
-    prev_x = x;
-    prev_y = y;
-
     handleState();
-
+    
+    //apply vector
+    x += vector.xspeed;
+    y += vector.yspeed;
+    
     bool moved = (x != prev_x || y != prev_y);
-
+    
     if(moved)
     {
+      //check for collisions
+      onPlatform = false;
+      game.level.repairCollision(this);
+      if(onPlatform == false)
+        changeState(STATE_INAIR);
+
       //clear hoverobject?
       if(hoverobject != null)
       {
         if( (
-            collisionx2 > hoverobject.collisionx
-            && collisionx < hoverobject.collisionx2
-            && collisiony2 > hoverobject.collisiony
-            && collisiony < hoverobject.collisiony2
-            ) == false
+           collisionx2 > hoverobject.collisionx
+           && collisionx < hoverobject.collisionx2
+           && collisiony2 > hoverobject.collisiony
+           && collisiony < hoverobject.collisiony2
+           ) == false
         )
         {
           hoverobject.onOut(this);
           hoverobject = null;
         }
       }
-  
-      onPlatform = false;
-      game.level.isCollision(this);
-      if(onPlatform == false)
-        changeState(STATE_INAIR);
-      
-      framechanged = true;
-      //set the camera position relative to the player
-      game.camera.centerObject(this);
-    }
+       framechanged = true;
+       //set the camera position relative to the player
+       game.camera.centerObject(this);
+     }
     
     //redraw item
     if(framechanged == true)
@@ -202,11 +194,15 @@ class Player extends GameObject
     //when the state is inAir, changing state is not possible
     if(state == STATE_INAIR && newState != STATE_DEF)
       return;
+    if(newState == STATE_INAIR)
+      onPlatform = false;
     state = newState;
   }
   
   void setState(int move)
   {
+    prev_x = x;
+    prev_y = y;
     switch(move)
     {
       case MOVE_RIGHT:
@@ -266,9 +262,6 @@ class Player extends GameObject
         framechanged = changeImage(_INAIR);
         break;
     }
-    //apply vector
-    x += vector.xspeed;
-    y += vector.yspeed;
   }
 
   void paint()
@@ -292,26 +285,32 @@ class Player extends GameObject
     layer.ctx.setFillColorRgb(0,255,0);
     layer.ctx.fillRect(labeloffset+1, 1+labelheight, healthw, 4);
   }
-  
-  bool checkCollisionField(double relativex, double relativey, CollisionField collisionfield)
+ 
+  bool repairLevelBorderCollision()
   {
-    bool res = super.checkCollisionField(relativex, relativey, collisionfield);
-    if(res == false)
-      return false;
+    if(y > game.level.y+game.level.h)
+      die();
 
-    if(onPlatform == true)
-      changeState(STATE_DEF);
-
-    vector.clear();
-    return true;
+    return false;
   }
-  
-  bool checkTileCollision(LevelTile tile)
+  void repairCollisionTile(LevelTile tile)
   {
-    bool res = super.checkTileCollision(tile);
-    if(res == false)
-      return false;
-
+    super.repairCollisionTile(tile);
+    if(isCollisionField(tile.x.toDouble(),tile.y.toDouble()-1,LevelTile.TILE_COLLISIONFIELD))
+      onPlatform = true;
+  }
+  void repairCollisionObject(RenderObject obj)
+  {
+    super.repairCollisionObject(obj);
+    if(isCollisionField(obj.x,obj.y-1,obj.collision))
+      onPlatform = true;
+  }
+  void onTileCollision(LevelTile tile)
+  {
+    super.onTileCollision(tile);
+    if(state == STATE_INAIR && onPlatform == true)
+        changeState(STATE_DEF);
+    vector.clear();
     //spikes
     if(tile.tileid == 4)
     {
@@ -322,38 +321,13 @@ class Player extends GameObject
         this.vector.addVector(_SPIKES_RIGHT);
       addHealth(-0.2);
     }
-    
-    return true;
   }
-  
-  bool checkLevelBorderCollision()
+  void onObjectCollision(RenderObject o)
   {
-    if(y > game.level.y+game.level.h)
-      die();
-
-    return false;
-  }
-  
-  bool checkObjectCollision(RenderObject o)
-  {
-    if(o is InteractiveObject == false)
-      return checkObjectCollision(o);
-    
-    //over object?
-    if( (
-        collisionx2 > o.collisionx
-        && collisionx < o.collisionx2
-        && collisiony2 > o.collisiony
-        && collisiony < o.collisiony2
-        ) == false)
-    return false;
-    
     if(o is InteractiveObject == false || hoverobject != null || hoverobject == o)
-      return false;
-    
+      return;
     InteractiveObject so = o;
     so.onOver(this);
     hoverobject = so;
-    return true;
   }
 }
