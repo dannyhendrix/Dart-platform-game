@@ -60,10 +60,7 @@ class Player extends GameObject
 
   Player(Game game) : super(game, 0.0,0.0,22,39+6), movepriority = new List<int>()
   {
-    collision.x = 6;
-    collision.w = w - 16;
-    collision.y = 10+6;
-    collision.h = h - 15-6;
+    collision = new CollisionField(6,16,w-16,h-21);
 
     sprite = new Sprite("resources/images/c0v0a16t1uv1t80Cs1Cd.png",0,0,22,39);
     
@@ -255,18 +252,18 @@ class Player extends GameObject
       case STATE_JUMP:
         vector.clear();
         if(look == LOOK_LEFT)
-          this.vector.addVector(new Vector.fromAngle(235.0,30.0));
+          this.vector.addVector(new Vector.fromAngle(235.0,20.0));
         else
-          this.vector.addVector(new Vector.fromAngle(305.0,30.0));
+          this.vector.addVector(new Vector.fromAngle(305.0,20.0));
         changeState(STATE_INAIR);
         changed = changeImage(_INAIR,looptime,framerate);
         break;
       case STATE_JUMP2:
         vector.clear();
         if(look == LOOK_LEFT)
-          this.vector.addVector(new Vector.fromAngle(260.0,40.0));
+          this.vector.addVector(new Vector.fromAngle(260.0,30.0));
         else
-          this.vector.addVector(new Vector.fromAngle(280.0,40.0));
+          this.vector.addVector(new Vector.fromAngle(280.0,30.0));
         changeState(STATE_INAIR);
         changed = changeImage(_INAIR,looptime,framerate);
         break;
@@ -324,6 +321,7 @@ class Player extends GameObject
         this.vector.addVector(new Vector.fromAngle(260.0,30.0));
       addHealth(-0.2);
     }
+    
     return true;
   }
   

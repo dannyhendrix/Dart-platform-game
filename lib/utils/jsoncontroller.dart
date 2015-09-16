@@ -11,21 +11,22 @@ Json resources holder
 **/
 class JsonController 
 {
-  static Map<String,Map> json_objects;
+  static Map<String,Map> json_objects = new Map<String, Map>();
 
   static Map getJson(String file)
   {
-    if(json_objects == null)
-      json_objects = new Map<String, Map>();
-    
     return json_objects[file];
+  }
+  
+  static bool isLoaded(String file)
+  {
+    return json_objects.containsKey(file);
   }
   
   static void loadJson(final String file, final Function callback)
   {
-    if(json_objects == null)
-      json_objects = new Map<String, Map>();
-    
+    if(isLoaded(file))
+      callback();
     HttpRequest.getString(file).then((String jsonText)
     {
       json_objects[file] = JSON.decode(jsonText);

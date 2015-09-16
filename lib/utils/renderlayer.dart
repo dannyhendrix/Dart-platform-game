@@ -25,6 +25,14 @@ class RenderLayer
     canvas = element;
     ctx = canvas.getContext("2d");
   }
+  
+  RenderLayer.withSize(int w, int h)
+  {
+    canvas = new Element.tag("canvas");
+    canvas.height = h;
+    canvas.width = w;
+    ctx = canvas.getContext("2d");
+  }
 
   set width(int value) => canvas.width = value;
   set height(int value) => canvas.height = value;

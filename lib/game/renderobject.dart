@@ -40,9 +40,7 @@ class RenderObject
   RenderObject(this.game,this.x,this.y,this.w,this.h)
   {
     collision = new CollisionField(0,0,w,h);
-    layer = new RenderLayer();
-    layer.width = w;
-    layer.height = h;
+    layer = new RenderLayer.withSize(w,h);
   }
   void draw(RenderLayer targetlayer, int offsetx, int offsety)
   {

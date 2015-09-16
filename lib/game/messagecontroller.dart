@@ -13,7 +13,6 @@ class MessageController
 {
   List<String> messages;
   DivElement dommessages;
-  //int timeout;
   Timer timeout;
   bool showing = false;
   
@@ -36,23 +35,19 @@ class MessageController
   
   void displayMessages()
   {
-    if(showing == true)
+    /*if(showing == true)
       dommessages.innerHtml = "${dommessages.innerHtml}<br/>${messages[0]}";
-    else
-      dommessages.innerHtml = messages[0];
+    else*/
+    dommessages.innerHtml = messages[0];
     
     showing = true;
     messages.removeRange(0, 1);
     
     dommessages.style.opacity = "1.0";
-    /*
-    if(timeout != null)
-      window.clearTimeout(timeout);
-    timeout = window.setTimeout(hideMessages, 5000);
-     */
+
     if(timeout != null)
       timeout.cancel();
-    timeout = new Timer(const Duration(milliseconds: 500),hideMessages);
+    timeout = new Timer(const Duration(milliseconds: 5000),hideMessages);
   }
   
   void hideMessages()
@@ -62,7 +57,6 @@ class MessageController
     dommessages.style.opacity = "0.0";
     if(messages.length == 0)
       return;
-    //timeout = window.setTimeout(displayMessages, 500);
-    timeout = new Timer(const Duration(milliseconds: 500),displayMessages);
+    timeout = new Timer(const Duration(milliseconds: 5000),displayMessages);
   }
 }

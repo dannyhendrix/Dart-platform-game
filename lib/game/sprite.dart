@@ -8,16 +8,13 @@ part of Game;
 
 class Sprite
 {
-  int spritex;
-  int spritey;
-  int framew;
-  int frameh;
-  String imgurl = "";
-  ImageElement img;
+  final int spritex, spritey;
+  final int framew, frameh;
+  final ImageElement img;
 
-  Sprite(this.imgurl, this.spritex, this.spritey,this.framew,this.frameh)
+  Sprite(String imgurl, this.spritex, this.spritey,this.framew,this.frameh) : img = ImageController.getImage(imgurl)
   {
-    img = ImageController.getImage(imgurl);
+    
   }
 
   drawOnPosition(int x, int y, int frameX, int frameY, RenderLayer targetlayer)
