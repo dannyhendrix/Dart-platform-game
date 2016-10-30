@@ -24,57 +24,52 @@ class GameLoop
 
   void play()
   {
-	if(playing)
-		return;
-	stopping = false;
-	playing = true;
-	if(jstimer == -1)
-		jstimer = window.requestAnimationFrame(loop);
-	if(onPlay != null)
-		onPlay();
+    if(playing)
+      return;
+    stopping = false;
+    playing = true;
+    if(jstimer == -1)
+      jstimer = window.requestAnimationFrame(loop);
+    onPlay?.call();
   }
-  
+
   void stop()
   {
-	stopping = true;
+    stopping = true;
   }
 
   void pause([bool forceplay = null])
   {
-	if(forceplay == null)
-		forceplay = !playing;
-    if(stopping == false && forceplay == false)
+    forceplay ??= !playing;
+    if(!stopping && !forceplay)
     {
       stop();
       return;
     }
-	//already stoppingpping
-    if(forceplay == false)
+    //already stopping
+    if(!forceplay)
       return;
-    
+
     play();
   }
 
   void loop(double looptime)
   {
-    if(stopping == true)
+    if(stopping)
     {
-		jstimer = -1;
-		playing = false;
-		if(onStop != null)
-		  onStop();
-		return;
+      jstimer = -1;
+      playing = false;
+      onStop?.call();
+      return;
     }
-    if(lastTime == null)
-      lastTime = looptime.toInt();
+    lastTime ??= looptime.toInt();
 
     //framerate
-    int now = looptime.toInt();//(new Date.now()).value;
-	
-	if(update != null)
-      update(now);
-	  
-	int delta = now-lastTime;
+    int now = looptime.toInt();
+
+    update?.call(now);
+
+    int delta = now-lastTime;
     lastTime = now;
     time += delta;
     frames++;

@@ -38,19 +38,19 @@ class PreLoader
   {
     files++;
     ImageElement img = ImageController.loadImage(file);
-    img.onLoad.listen((event){ fileloaded(); });
+    img.onLoad.listen((event) => fileLoaded());
   }
   
   void loadJson(String file)
   {
     files++;
-    JsonController.loadJson(file, fileloaded);
+    JsonController.loadJson(file, fileLoaded);
   }
   
-  void fileloaded()
+  void fileLoaded()
   {
     loaded++;
-    if(started == false)
+    if(!started)
       return;
     if(loaded >= files)
     {

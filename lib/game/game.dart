@@ -19,19 +19,10 @@ class Game
   bool showCollisionField = false;
   PreLoader loader;
   GameLoop gameloop;
-  
-  //bool stop = false;
-  
+
   int currentlevel = 0;
   String levelsource;
 
-  /*
-  //framerate
-  int frames = 0;
-  double lastTime;
-  double time = 0.0;
-  int fps = 0;
-  */
   static final double GRAVITY = 0.3;
 
   Game() : render = new Render(), gameobjects = new List<GameObject>(), camera = new Camera()

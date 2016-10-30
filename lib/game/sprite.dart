@@ -12,10 +12,7 @@ class Sprite
   final int framew, frameh;
   final ImageElement img;
 
-  Sprite(String imgurl, this.spritex, this.spritey,this.framew,this.frameh) : img = ImageController.getImage(imgurl)
-  {
-    
-  }
+  Sprite(String imgurl, this.spritex, this.spritey,this.framew,this.frameh) : img = ImageController.getImage(imgurl);
 
   drawOnPosition(int x, int y, int frameX, int frameY, RenderLayer targetlayer)
   {

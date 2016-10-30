@@ -17,8 +17,8 @@ class CollisionField
   
   CollisionField(this.x,this.y,this.w,this.h, [int midx, int midy])
   {
-    midpointx = (midx == null)?(x + w)~/2:midx;
-    midpointy = (midy == null)?(y + h)~/2:midy;
+    midpointx = midx ?? (x+w)~/2;
+    midpointy = midy ?? (y+h)~/2;
   }
 
   set x2(int value) => w = value-x;
