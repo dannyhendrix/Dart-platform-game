@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 /**
 Display messages during the game in a pop-up 

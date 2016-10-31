@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 /**
 Player class
@@ -71,8 +71,9 @@ class Player extends GameObject
   {
     collision = new CollisionField(6,16,w-16,h-21);
 
-    sprite = new Sprite("resources/images/c0v0a16t1uv1t80Cs1Cd.png",0,0,22,39);
-    
+
+    //TODO: player label
+    /*
     //text label
     labelwidth = layer.ctx.measureText(name).width.ceil().toInt()+padding*2;
     
@@ -92,6 +93,14 @@ class Player extends GameObject
     layer.ctx.fillRect(0, 0, w, 16);
     layer.ctx.setFillColorRgb(255,255,255);
     layer.ctx.fillText(name, padding, 12);
+    */
+    labeloffset=0;
+    labelheight=-6;
+  }
+
+  void start(Game game)
+  {
+    sprite = new Sprite(game.resourceManager.getImage("player"),0,0,22,39);
   }
   
   void enterObject()
@@ -267,12 +276,14 @@ class Player extends GameObject
   void paint()
   {
     //clear the character area (and keep the healtbar and name)
-    layer.ctx.clearRect(0, 6+labelheight, w, h-6-labelheight);
+    layer.clearArea(0, 6+labelheight, w, h-6-labelheight);
     if(look == LOOK_LEFT)
       sprite.drawOnPosition(labeloffset,6+labelheight,14 - frame,1,layer);
     else
       sprite.drawOnPosition(labeloffset,6+labelheight,frame,0,layer);
-    
+
+    //TODO: draw healthbar
+    /*
     //repaint health if health has changed since the last paint
     if(healthchanged == false)
       return;
@@ -284,6 +295,7 @@ class Player extends GameObject
     int healthw = ((22-2/100) * health).floor().toInt();
     layer.ctx.setFillColorRgb(0,255,0);
     layer.ctx.fillRect(labeloffset+1, 1+labelheight, healthw, 4);
+    */
   }
  
   bool repairLevelBorderCollision()

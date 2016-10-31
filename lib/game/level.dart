@@ -4,12 +4,12 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 class Level
 {
-  double x = 0.0;
-  double y = 0.0;
+  int x = 0;
+  int y = 0;
   int w = 500;
   int h = 500;
   int flags = 0;
@@ -19,14 +19,17 @@ class Level
   
   Game game;
   
-  RenderLayer layer;
+  DrawableRenderLayer layer;
 
   List<LevelTile> leveltiles;
   
   //tiles that changed and should be redrawn
   List<LevelTile> updatetiles;
 
-  Level(this.game) : updatetiles = new List<LevelTile>(), layer = new RenderLayer();
+  Level(this.game) : updatetiles = new List<LevelTile>()
+  {
+    layer = game.resourceManager.createNewDrawableImage(0,0);
+  }
 
   void loadLevel(Map json)
   {
@@ -44,8 +47,7 @@ class Level
     leveltiles = new List<LevelTile>();
 
     //create a tiled map
-    layer.width = w;
-    layer.height = h;
+    layer.resize(w,h);
 
     LevelTile obj;
     //create all tiles in the map
@@ -125,14 +127,14 @@ class Level
       }
   }
 
-  void draw(RenderLayer targetlayer, int offsetx, int offsety)
+  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety)
   {
     //repaint tiles that changed
     for(int i = 0; i < updatetiles.length; i++)
       updatetiles[i].draw(layer,x,y);
     updatetiles.clear();
     //repaint main layer
-    targetlayer.ctx.drawImage(layer.canvas, x-offsetx, y-offsety);
+    targetlayer.drawLayer(layer, x-offsetx, y-offsety);
   }
   
   LevelTile getTileAt(int absolutex, int absolutey)

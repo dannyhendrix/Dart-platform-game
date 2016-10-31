@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 class LevelTile
 {
@@ -19,7 +19,7 @@ class LevelTile
   bool hascollision = false;
   Sprite sprite;
 
-  RenderLayer layer;
+  DrawableRenderLayer layer;
 
   Level level;
   
@@ -38,14 +38,12 @@ class LevelTile
 
   LevelTile(this.x, this.y, this.level, this._tileid)
   {
-    layer = new RenderLayer();
-    layer.width = w;
-    layer.height = h;
+    layer = level.game.resourceManager.createNewDrawableImage(w,h);
     
     if(_tileid != 0)
       hascollision = true;
 
-    sprite = new Sprite("resources/images/images.png",(_tileid - 1) * 32,0,32,32);
+    sprite = new Sprite(level.game.resourceManager.getImage("assets"),(_tileid - 1) * 32,0,32,32);
   }
 
   void insert(RenderObject obj)
@@ -111,13 +109,13 @@ class LevelTile
     repaint();
   }
 
-  void draw(RenderLayer targetlayer, double offsetx, double offsety)
+  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety)
   {
     if(changed == true)
       paint();
     changed = false;
-    targetlayer.ctx.clearRect(x, y, 32, 32);
-    targetlayer.ctx.drawImage(layer.canvas, (x-offsetx).toInt(), (y-offsety).toInt());
+    targetlayer.clearArea(x, y, 32, 32);
+    targetlayer.drawLayer(layer, x-offsetx, y-offsety);
   }
   
   //bool for displaying how the redrawing works ;) (press c during the game)
@@ -125,7 +123,8 @@ class LevelTile
   void paint()
   {
     layer.clear();
-    
+    //TODO: draw collisions is no longer supported?
+    /*
     if(level.game.showCollisionField == true)
     {
       if(a == true)
@@ -135,6 +134,7 @@ class LevelTile
       a = a==false;
       layer.ctx.strokeRect(0,0,32,32);
     }
+    */
     //draw tile
     if(_tileid != 0)
       sprite.drawOnPosition(0,0,0,0,layer);

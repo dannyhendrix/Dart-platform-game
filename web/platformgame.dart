@@ -6,11 +6,11 @@ Platform game example
 
 import 'dart:html';
 import 'package:dart_platform_game/game.dart';
+import 'package:dart_platform_game/web.dart';
 
 void main() 
 {
-  Game game = new Game();
-  game.start();
-  document.onKeyDown.listen(game.handleKey);
-  document.onKeyUp.listen(game.handleKey);
+  Dashboard db = new Dashboard();
+  db.init();
+  db.start();
 }

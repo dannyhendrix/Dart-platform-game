@@ -9,6 +9,7 @@ part of Utils;
 /**
 image resources holder
 **/
+/*
 class ImageController 
 {
   static Map<String,ImageElement> _images = new Map<String,ImageElement>();
@@ -31,3 +32,4 @@ class ImageController
     return loadImage(url);
   }
 }
+*/

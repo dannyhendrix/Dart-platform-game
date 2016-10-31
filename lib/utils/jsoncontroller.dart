@@ -9,6 +9,7 @@ part of Utils;
 /**
 Json resources holder
 **/
+/*
 class JsonController 
 {
   static Map<String,Map> json_objects = new Map<String, Map>();
@@ -34,3 +35,4 @@ class JsonController
     });
   }
 }
+*/

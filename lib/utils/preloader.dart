@@ -9,6 +9,7 @@ part of Utils;
 /**
 load resources, calls a callback when all resources are loaded
 **/
+/*
 class PreLoader 
 {
   int loaded = 0;
@@ -59,3 +60,4 @@ class PreLoader
     }
   }
 }
+*/

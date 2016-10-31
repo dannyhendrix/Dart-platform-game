@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 /**
 Base class for all objects
@@ -22,7 +22,7 @@ class RenderObject
   Game game;
 
   CollisionField collision;
-  RenderLayer layer;
+  DrawableRenderLayer layer;
 
   double get collisionx => x+collision.x;
   double get collisiony => y+collision.y;
@@ -40,12 +40,12 @@ class RenderObject
   RenderObject(this.game,this.x,this.y,this.w,this.h)
   {
     collision = new CollisionField(0,0,w,h);
-    layer = new RenderLayer.withSize(w,h);
+    layer = game.resourceManager.createNewDrawableImage(w,h);
   }
-  void draw(RenderLayer targetlayer, int offsetx, int offsety)
+  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety)
   {
     paint();
-    targetlayer.ctx.drawImage(layer.canvas, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
+    targetlayer.drawLayer(layer, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
   }
   
   void paint()
@@ -54,6 +54,8 @@ class RenderObject
 
   void drawCollision(RenderLayer targetlayer, int offsetx, int offsety)
   {
+    //TODO: no longer supported?
+    /*
     draw(targetlayer, offsetx, offsety);
     int drawx = 0;
     int drawy = 0;
@@ -75,6 +77,7 @@ class RenderObject
     layer.ctx.strokeRect(drawx,drawy,w,h);
     
     targetlayer.ctx.drawImage(layer.canvas, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
+    */
   }
   
   bool isCollisionField(double relativex, double relativey, CollisionField collisionfield)

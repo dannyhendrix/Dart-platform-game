@@ -4,7 +4,7 @@ Platform game example
 @author Danny Hendrix
 **/
 
-library Game;
+library game;
 
 import "dart:html";
 import "dart:math" as Math;
@@ -29,3 +29,6 @@ part 'game/renderobject/interactiveobject.dart';
 part 'game/renderobject/levelobject.dart';
 part 'game/sprite.dart';
 part 'game/animationframes.dart';
+
+part 'game/resourcemanager/resourcemanager.dart';
+part 'game/resourcemanager/renderlayer.dart';

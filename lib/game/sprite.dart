@@ -4,18 +4,18 @@ Platform game example
 @author Danny Hendrix
 **/
 
-part of Game;
+part of game;
 
 class Sprite
 {
   int spritex, spritey;
   final int framew, frameh;
-  final ImageElement img;
+  final RenderLayer img;
 
-  Sprite(String imgurl, this.spritex, this.spritey,this.framew,this.frameh) : img = ImageController.getImage(imgurl);
+  Sprite(this.img, this.spritex, this.spritey,this.framew,this.frameh);
 
-  drawOnPosition(int x, int y, int frameX, int frameY, RenderLayer targetlayer)
+  drawOnPosition(int x, int y, int frameX, int frameY, DrawableRenderLayer targetlayer)
   {
-    targetlayer.ctx.drawImageScaledFromSource(img,frameX * framew + spritex,frameY * frameh + spritey,framew,frameh, x,y,framew,frameh);
+    targetlayer.drawLayerPart(img,x,y,frameX * framew + spritex,frameY * frameh + spritey,framew,frameh);
   }
 }

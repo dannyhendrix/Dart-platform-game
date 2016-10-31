@@ -9,6 +9,7 @@ part of Utils;
 /**
 Makes it easier to work with canvases, you can always access the canvas and ctx resource
 **/
+/*
 class RenderLayer
 {
   CanvasElement canvas;
@@ -45,3 +46,4 @@ class RenderLayer
     canvas.width = canvas.width;
   }
 }
+*/
