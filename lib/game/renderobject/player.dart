@@ -134,7 +134,7 @@ class Player extends GameObject {
   }
 
   void die() {
-    game.messages.sendMessage("Too bad.. try again!");
+    game.gameOutput.onGameMessage("Too bad.. try again!");
     game.resetLevel();
   }
 

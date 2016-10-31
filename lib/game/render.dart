@@ -37,7 +37,7 @@ class Render {
   }
 
   void start(Game g) {
-    layer.resize(g.camera.w, g.camera.h);
+
   }
 
   void update() {

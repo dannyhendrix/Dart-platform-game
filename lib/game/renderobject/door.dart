@@ -52,7 +52,7 @@ class Door extends InteractiveObject {
 
   void onOver(GameObject object) {
     over = true;
-    if (hidelabel == false) game.messages.sendMessage("Go to: $link");
+    if (hidelabel == false) game.gameOutput.onGameMessage("Go to: $link");
     updateDrawLocation();
   }
 
@@ -63,7 +63,7 @@ class Door extends InteractiveObject {
 
   void onEnter(GameObject object) {
     List<String> linkspl = link.split(":");
-    if (linkspl[0] == "http") window.location.assign(link);
+    if (linkspl[0] == "http") game.gameOutput.onGameGoToLocation(link);
     if (linkspl[0] == "map") {
       object.x = double.parse(linkspl[1]);
       object.y = double.parse(linkspl[2]);

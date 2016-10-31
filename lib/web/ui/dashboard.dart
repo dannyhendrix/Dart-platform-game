@@ -6,14 +6,16 @@ part of game.web;
 3.
  */
 
-class Dashboard {
+class Dashboard extends GameOutput {
   Game game;
   ResourceManager resourceManager;
   InputControllerWebKeyboard inputController;
+  MessageController messages;
   Dashboard() {
     resourceManager = new ResourceManagerWeb();
-    game = new Game(resourceManager);
+    game = new Game(resourceManager, this);
     inputController = new InputControllerWebKeyboard(game);
+    messages = new MessageController();
   }
   void init() {}
   void start() {
@@ -58,5 +60,43 @@ class Dashboard {
       });
     });
     main.nodes.add(dombutton);
+  }
+  @override
+  void onGameGoToLocation(String url) {
+    window.location.assign(url);
+  }
+
+  @override
+  void onGameMessage(String message) {
+    messages.sendMessage(message);
+  }
+  @override
+  void onGameLevelFinished() {
+    // TODO: implement onGameLevelFinished
+  }
+
+  @override
+  void onGameLevelLoaded() {
+
+    game.camera.w = Math.min(window.innerWidth, game.level.w);
+    //-38 for top bar
+    game.camera.h = Math.min(window.innerHeight - 44, game.level.h);
+
+    //verticaly center the game
+    int offsettop = 38;
+    if (game.camera.h == game.level.h) offsettop = (window.innerHeight - 44 - game.camera.h) ~/ 2;
+
+    RenderLayerWebCanvas gameLayer = game.render.layer;
+    gameLayer.el_canvas.style.marginTop = "${offsettop}px";
+
+    int minborder = Math.min(game.camera.w, game.camera.h);
+    game.camera.border = (minborder * 0.3).toInt(); //10%
+
+    game.render.layer.resize(game.camera.w, game.camera.h);
+  }
+
+  @override
+  void onGameStart() {
+    // TODO: implement onGameStart
   }
 }

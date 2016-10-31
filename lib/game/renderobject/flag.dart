@@ -21,11 +21,11 @@ class Flag extends InteractiveObject {
     game.level.flags--;
 
     if (game.level.flags <= 0) {
-      game.messages.sendMessage("Level complete.");
+      game.gameOutput.onGameMessage("Level complete.");
       game.goToNextLevel();
-    } else
-      game.messages.sendMessage("Flag collected ${game.level.flags} flags left!");
-
+    } else {
+      game.gameOutput.onGameMessage("Flag collected ${game.level.flags} flags left!");
+    }
     updateDrawLocation(true);
   }
 }
