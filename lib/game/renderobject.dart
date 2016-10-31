@@ -9,13 +9,12 @@ part of game;
 /**
 Base class for all objects
 **/
-class RenderObject
-{
+class RenderObject {
   double x;
   double y;
   int w;
   int h;
-  
+
   double prev_x = 0.0;
   double prev_y = 0.0;
 
@@ -24,36 +23,31 @@ class RenderObject
   CollisionField collision;
   DrawableRenderLayer layer;
 
-  double get collisionx => x+collision.x;
-  double get collisiony => y+collision.y;
-  double get collisionx2 => x+collision.x2;
-  double get collisiony2 => y+collision.y2;
-  double get collisionmidpointy => y+collision.midpointy;
-  double get collisionmidpointx => x+collision.x + (collision.w~/2);
+  double get collisionx => x + collision.x;
+  double get collisiony => y + collision.y;
+  double get collisionx2 => x + collision.x2;
+  double get collisiony2 => y + collision.y2;
+  double get collisionmidpointy => y + collision.midpointy;
+  double get collisionmidpointx => x + collision.x + (collision.w ~/ 2);
 
-  int get objectTileX => (x/32).floor().toInt();
-  int get objectTileY => (y/32).floor().toInt();
+  int get objectTileX => (x / 32).floor().toInt();
+  int get objectTileY => (y / 32).floor().toInt();
 
-  int get objectTileEndX => ((x + w)/32).ceil().toInt();
-  int get objectTileEndY => ((y + h)/32).ceil().toInt();
+  int get objectTileEndX => ((x + w) / 32).ceil().toInt();
+  int get objectTileEndY => ((y + h) / 32).ceil().toInt();
 
-  RenderObject(this.game,this.x,this.y,this.w,this.h)
-  {
-    collision = new CollisionField(0,0,w,h);
-    layer = game.resourceManager.createNewDrawableImage(w,h);
+  RenderObject(this.game, this.x, this.y, this.w, this.h) {
+    collision = new CollisionField(0, 0, w, h);
+    layer = game.resourceManager.createNewDrawableImage(w, h);
   }
-  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety)
-  {
+  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety) {
     paint();
-    targetlayer.drawLayer(layer, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
-  }
-  
-  void paint()
-  {
+    targetlayer.drawLayer(layer, (x - offsetx).round().toInt(), (y - offsety).round().toInt());
   }
 
-  void drawCollision(RenderLayer targetlayer, int offsetx, int offsety)
-  {
+  void paint() {}
+
+  void drawCollision(RenderLayer targetlayer, int offsetx, int offsety) {
     //TODO: no longer supported?
     /*
     draw(targetlayer, offsetx, offsety);
@@ -79,56 +73,40 @@ class RenderObject
     targetlayer.ctx.drawImage(layer.canvas, (x-offsetx).round().toInt(), (y-offsety).round().toInt());
     */
   }
-  
-  bool isCollisionField(double relativex, double relativey, CollisionField collisionfield)
-  {
-    if(collision == null)
-      return false;
-    return
-        collisionx2 > relativex
-        && collisionx < relativex+collisionfield.x2
-        && collisiony2 > relativey
-        && collisiony < relativey+collisionfield.y2;
+
+  bool isCollisionField(double relativex, double relativey, CollisionField collisionfield) {
+    if (collision == null) return false;
+    return collisionx2 > relativex && collisionx < relativex + collisionfield.x2 && collisiony2 > relativey && collisiony < relativey + collisionfield.y2;
   }
-  void repairCollisionTile(LevelTile tile)
-  {
-  }
-  void repairCollisionObject(RenderObject obj)
-  {
-  }
-  void onTileCollision(LevelTile tile)
-  {
-  }
-  void onObjectCollision(RenderObject o)
-  {
-  }
-  
-  void updateDrawLocation([bool remove = false])
-  {
+
+  void repairCollisionTile(LevelTile tile) {}
+  void repairCollisionObject(RenderObject obj) {}
+  void onTileCollision(LevelTile tile) {}
+  void onObjectCollision(RenderObject o) {}
+
+  void updateDrawLocation([bool remove = false]) {
     //update all tiles that change
-    int maxx = Math.max(x.ceil().toInt(),prev_x.ceil().toInt());
-    int minx = Math.min(x.floor().toInt(),prev_x.floor().toInt());
+    int maxx = Math.max(x.ceil().toInt(), prev_x.ceil().toInt());
+    int minx = Math.min(x.floor().toInt(), prev_x.floor().toInt());
 
-    int maxy = Math.max(y.ceil().toInt(),prev_y.ceil().toInt());
-    int miny = Math.min(y.floor().toInt(),prev_y.floor().toInt());
+    int maxy = Math.max(y.ceil().toInt(), prev_y.ceil().toInt());
+    int miny = Math.min(y.floor().toInt(), prev_y.floor().toInt());
 
-    int objectTileX = (minx/32).floor().toInt();
-    int objectTileY = (miny/32).floor().toInt();
+    int objectTileX = (minx / 32).floor().toInt();
+    int objectTileY = (miny / 32).floor().toInt();
 
-    int objectTileEndX = ((maxx + w)/32).ceil().toInt();
-    int objectTileEndY = ((maxy + h)/32).ceil().toInt();
+    int objectTileEndX = ((maxx + w) / 32).ceil().toInt();
+    int objectTileEndY = ((maxy + h) / 32).ceil().toInt();
 
-    int tilesx = (game.level.w/32).ceil().toInt();
+    int tilesx = (game.level.w / 32).ceil().toInt();
 
     int intkey;
 
-    for(int iy = objectTileY; iy < objectTileEndY; iy++)
-      for(int ix = objectTileX; ix < objectTileEndX; ix++)
-      {
+    for (int iy = objectTileY; iy < objectTileEndY; iy++)
+      for (int ix = objectTileX; ix < objectTileEndX; ix++) {
         intkey = iy * tilesx + ix;
-        if(game.level.leveltiles.length <= intkey || intkey < 0)
-          continue;
-        if(remove == true)
+        if (game.level.leveltiles.length <= intkey || intkey < 0) continue;
+        if (remove == true)
           game.level.leveltiles[intkey].remove(this);
         else
           game.level.leveltiles[intkey].update(this);

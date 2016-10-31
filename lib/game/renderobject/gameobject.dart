@@ -25,13 +25,13 @@ class GameObject extends RenderObject {
   void update() {}
 
   void repairLevelBorderCollision() {
-    if (collisionx2 > game.level.x + game.level.w) x = game.level.x + game.level.w - collision.x2*1.0;
-    if (collisionx < game.level.x) x = game.level.x - collision.x*1.0;
+    if (collisionx2 > game.level.x + game.level.w) x = game.level.x + game.level.w - collision.x2 * 1.0;
+    if (collisionx < game.level.x) x = game.level.x - collision.x * 1.0;
     if (collisiony2 > game.level.y + game.level.h) {
-      y = game.level.y + game.level.h - collision.y2*1.0;
+      y = game.level.y + game.level.h - collision.y2 * 1.0;
       onPlatform = true;
     }
-    if (collisiony < game.level.y) y = game.level.y - collision.y*1.0;
+    if (collisiony < game.level.y) y = game.level.y - collision.y * 1.0;
 
     if (collisiony2 + 1 > game.level.y + game.level.h) onPlatform = true;
   }

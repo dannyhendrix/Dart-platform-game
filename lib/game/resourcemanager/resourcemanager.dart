@@ -23,11 +23,11 @@ abstract class ResourceManager<K> {
     started = false;
   }
 
-  void onResource(K key, RenderLayer layer, OnResourceLoaded callback) {
+  void onResource(Function callback) {
     loaded++;
     if (!started) return;
 
-    callback?.call(key, layer);
+    callback();
     if (onResourcesLoaded != null && loaded >= files) onResourcesLoaded();
   }
 

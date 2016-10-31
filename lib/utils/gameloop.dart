@@ -4,8 +4,7 @@ typedef void OnPlay();
 typedef void OnStop();
 typedef void OnUpdate(int now);
 
-class GameLoop
-{
+class GameLoop {
   //framerate
   int frames = 0;
   int lastTime;
@@ -20,43 +19,34 @@ class GameLoop
   OnPlay onPlay;
   OnStop onStop;
 
-  GameLoop(this.update,[this.onPlay, this.onStop]);
+  GameLoop(this.update, [this.onPlay, this.onStop]);
 
-  void play()
-  {
-    if(playing)
-      return;
+  void play() {
+    if (playing) return;
     stopping = false;
     playing = true;
-    if(jstimer == -1)
-      jstimer = window.requestAnimationFrame(loop);
+    if (jstimer == -1) jstimer = window.requestAnimationFrame(loop);
     onPlay?.call();
   }
 
-  void stop()
-  {
+  void stop() {
     stopping = true;
   }
 
-  void pause([bool forceplay = null])
-  {
+  void pause([bool forceplay = null]) {
     forceplay ??= !playing;
-    if(!stopping && !forceplay)
-    {
+    if (!stopping && !forceplay) {
       stop();
       return;
     }
     //already stopping
-    if(!forceplay)
-      return;
+    if (!forceplay) return;
 
     play();
   }
 
-  void loop(double looptime)
-  {
-    if(stopping)
-    {
+  void loop(double looptime) {
+    if (stopping) {
       jstimer = -1;
       playing = false;
       onStop?.call();
@@ -69,13 +59,12 @@ class GameLoop
 
     update?.call(now);
 
-    int delta = now-lastTime;
+    int delta = now - lastTime;
     lastTime = now;
     time += delta;
     frames++;
-    if(time > 1000)
-    {
-      fps = 1000*frames~/time;
+    if (time > 1000) {
+      fps = 1000 * frames ~/ time;
       time = 0;
       frames = 0;
     }

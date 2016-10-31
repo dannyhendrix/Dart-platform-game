@@ -12,7 +12,7 @@ class Door extends InteractiveObject {
   bool hidelabel = false;
 
   int layerwidth = 0;
-  int layerheight = 0;//24;
+  int layerheight = 0; //24;
   int padding = 3;
 
   Door.fromJson(Game game, Map json, int offsetx, int offsety) : super(game, json['x'].toDouble() + offsetx, json['y'].toDouble() + offsety, 25, 49) {

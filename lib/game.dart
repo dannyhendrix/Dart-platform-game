@@ -10,7 +10,6 @@ import "dart:html";
 import "dart:math" as Math;
 import 'dart:async';
 
-
 import 'utils.dart';
 
 part 'game/game.dart';

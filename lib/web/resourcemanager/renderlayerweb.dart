@@ -33,8 +33,7 @@ class RenderLayerWebCanvas extends DrawableRenderLayer<RenderLayerWeb> with Rend
   }
 
   @override
-  void resize(int w, int h)
-  {
+  void resize(int w, int h) {
     el_canvas.width = w;
     el_canvas.height = h;
   }

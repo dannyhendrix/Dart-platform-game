@@ -1,7 +1,6 @@
 part of game.web;
 
 class InputControllerWebKeyboard {
-
   Game game;
 
   InputControllerWebKeyboard(this.game);

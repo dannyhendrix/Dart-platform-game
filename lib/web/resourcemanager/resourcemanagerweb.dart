@@ -1,18 +1,18 @@
 part of game.web;
 
 class ResourceManagerWeb<K> extends ResourceManager {
-  final JsonControllerWeb<K> _jsonController;
-  final ImageControllerWeb<K> _imageController;
+  JsonControllerWeb<K> _jsonController;
+  ImageControllerWeb<K> _imageController;
 
-  ResourceManagerWeb()
-      : _jsonController = new JsonControllerWeb<K>(),
-        _imageController = new ImageControllerWeb<K>() {
-    _jsonController.onResourceLoaded = (K key, Map v) {
-      onResource(key, v, onJsonLoaded);
-    };
-    _imageController.onResourceLoaded = (K key, RenderLayer v) {
-      onResource(key, v, onImageLoaded);
-    };
+  ResourceManagerWeb() {
+    _jsonController = new JsonControllerWeb<K>()
+      ..onResourceLoaded = (K key, Map v) {
+        onResource(() => onJsonLoaded?.call(key, v));
+      };
+    _imageController = new ImageControllerWeb<K>()
+      ..onResourceLoaded = (K key, RenderLayer v) {
+        onResource(() => onImageLoaded?.call(key, v));
+      };
   }
 
   @override
@@ -43,6 +43,7 @@ class JsonControllerWeb<K> extends ResourceMapping<K, Map> {
   @override
   void load(K name, String path) {
     if (isLoaded(name)) onResourceLoaded(name, get(name));
+
     HttpRequest.getString(path).then((String jsonText) {
       Map json = JSON.decode(jsonText);
       set(name, json);

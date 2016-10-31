@@ -9,14 +9,12 @@ part of game;
 /**
 Renders the game (main canvas)
 **/
-class Render
-{
+class Render {
   Game game;
 
   DrawableRenderLayer layer;
 
-  Render()
-  {
+  Render() {
     /*
     layer = new RenderLayer();
 
@@ -28,8 +26,7 @@ class Render
     */
   }
 
-  void init(Game g)
-  {
+  void init(Game g) {
     this.game = g;
     layer = game.resourceManager.createNewDrawableImage(game.camera.w, game.camera.h);
     /*
@@ -38,12 +35,12 @@ class Render
     layer.height = g.camera.h;
 */
   }
-  void start(Game g)
-  {
-    layer.resize(g.camera.w,g.camera.h);
+
+  void start(Game g) {
+    layer.resize(g.camera.w, g.camera.h);
   }
-  void update()
-  {
+
+  void update() {
     layer.clear();
 
     game.level.draw(layer, game.camera.x, game.camera.y);
