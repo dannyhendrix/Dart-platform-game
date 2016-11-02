@@ -1,0 +1,9 @@
+name: dart_platform_game_web
+version: 1.0.0
+author: Danny Hendrix
+description: A sample platform game, web interface.
+homepage: http://www.dannyhendrix.com
+dependencies:
+  browser: any
+  dart_platform_game:
+    path: ../platform-game
