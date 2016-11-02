@@ -7,6 +7,7 @@ abstract class RenderLayerWeb extends RenderLayer {
 class RenderLayerWebCanvas extends DrawableRenderLayer<RenderLayerWeb> with RenderLayerWeb {
   CanvasElement el_canvas;
   CanvasRenderingContext2D ctx;
+  static ImageText imageText;
 
   @override
   int get h => el_canvas.height;
@@ -56,6 +57,33 @@ class RenderLayerWebCanvas extends DrawableRenderLayer<RenderLayerWeb> with Rend
   @override
   void clearArea(int x, int y, int w, int h) {
     ctx.clearRect(x, y, w, h);
+  }
+  @override
+  void drawFilledRect(int x, int y, int w, int h, RenderColor c) {
+    ctx.setFillColorRgb(c.r,c.g,c.b,c.a);
+    ctx.fillRect(x,y,w,h);
+  }
+
+  @override
+  void drawText(int x, int y, String text, RenderColor color) {
+    //currently only support for white text. Why? Because this comment says so. Deal with it.
+    if(imageText == null)
+      throw new Exception("imageText is not initialized!");
+    imageText.drawText(this, text, x, y);
+  }
+
+  @override
+  int getTextHeight(String text) {
+    if(imageText == null)
+      throw new Exception("imageText is not initialized!");
+    return imageText.letterh;
+  }
+
+  @override
+  int getTextWidth(String text) {
+    if(imageText == null)
+      throw new Exception("imageText is not initialized!");
+    return imageText.getTextWidth(text);
   }
 }
 

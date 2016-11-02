@@ -61,6 +61,11 @@ class Player extends GameObject {
   static final Vector _SPIKES_LEFT = new Vector.fromAngle(280.0, 7.0);
   static final Vector _SPIKES_RIGHT = new Vector.fromAngle(260.0, 7.0);
 
+  static final RenderColor ColorText = const RenderColor(255,255,255);
+  static final RenderColor ColorTextBackground = const RenderColor(0,0,0);
+  static final RenderColor ColorHealth = const RenderColor(0,255,0);
+  static final RenderColor ColorHealthBackground = const RenderColor(0,0,0);
+
   //walk speed
   static final int _step = 3;
 
@@ -71,13 +76,12 @@ class Player extends GameObject {
         movepriority = new List<int>() {
     collision = new CollisionField(6, 16, w - 16, h - 21);
 
-    //TODO: player label
-    /*
     //text label
-    labelwidth = layer.ctx.measureText(name).width.ceil().toInt()+padding*2;
+    labelwidth = layer.getTextWidth(name)+padding*2;
+    labelheight = layer.getTextHeight(name)+padding*2;
+
     
-    if(labelwidth > w)
-    {
+    if(labelwidth > w)    {
       w = labelwidth;
       collision.x += ((w-22)/2).toInt();
     }
@@ -85,16 +89,11 @@ class Player extends GameObject {
     h += labelheight;
     
     labeloffset = ((w-22)/2).toInt();
+
+    layer.resize(w,h);
     
-    layer.height = h;
-    layer.width = w;
-    
-    layer.ctx.fillRect(0, 0, w, 16);
-    layer.ctx.setFillColorRgb(255,255,255);
-    layer.ctx.fillText(name, padding, 12);
-    */
-    labeloffset = 0;
-    labelheight = -6;
+    layer.drawFilledRect(0, 0, w, labelheight, ColorTextBackground);
+    layer.drawText(padding, padding, name, ColorText);
   }
 
   void start(Game game) {
@@ -102,7 +101,7 @@ class Player extends GameObject {
   }
 
   void enterObject() {
-    if (hoverobject != null) hoverobject.onEnter(this);
+    hoverobject?.onEnter(this);
   }
 
   void setMove(int move, bool activate) {
@@ -113,7 +112,7 @@ class Player extends GameObject {
     is last in the array is handled.
     */
     movepriority.remove(move);
-    if (activate == true) movepriority.add(move);
+    if (activate) movepriority.add(move);
   }
 
   void addHealth(double add) {
@@ -156,12 +155,11 @@ class Player extends GameObject {
       //check for collisions
       onPlatform = false;
       game.level.repairCollision(this);
-      if (onPlatform == false) changeState(STATE_INAIR);
+      if (!onPlatform) changeState(STATE_INAIR);
 
       //clear hoverobject?
       if (hoverobject != null) {
-        if ((collisionx2 > hoverobject.collisionx && collisionx < hoverobject.collisionx2 && collisiony2 > hoverobject.collisiony && collisiony < hoverobject.collisiony2) ==
-            false) {
+        if (!(collisionx2 > hoverobject.collisionx && collisionx < hoverobject.collisionx2 && collisiony2 > hoverobject.collisiony && collisiony < hoverobject.collisiony2)) {
           hoverobject.onOut(this);
           hoverobject = null;
         }
@@ -251,20 +249,14 @@ class Player extends GameObject {
     else
       sprite.drawOnPosition(labeloffset, 6 + labelheight, frame, 0, layer);
 
-    //TODO: draw healthbar
-    /*
     //repaint health if health has changed since the last paint
     if(healthchanged == false)
       return;
     healthchanged = false;
-    
-    layer.ctx.setFillColorRgb(0,0,0);
-    layer.ctx.fillRect(labeloffset, 0+labelheight, 22, 6);
-    
+
+    layer.drawFilledRect(labeloffset, labelheight, 22, 6, ColorHealthBackground);
     int healthw = ((22-2/100) * health).floor().toInt();
-    layer.ctx.setFillColorRgb(0,255,0);
-    layer.ctx.fillRect(labeloffset+1, 1+labelheight, healthw, 4);
-    */
+    layer.drawFilledRect(labeloffset+1, 1+labelheight, healthw, 4, ColorHealth);
   }
 
   bool repairLevelBorderCollision() {
@@ -285,7 +277,7 @@ class Player extends GameObject {
 
   void onTileCollision(LevelTile tile) {
     super.onTileCollision(tile);
-    if (state == STATE_INAIR && onPlatform == true) changeState(STATE_DEF);
+    if (state == STATE_INAIR && onPlatform) changeState(STATE_DEF);
     vector.clear();
     //spikes
     if (tile.tileid == 4) {
@@ -299,7 +291,7 @@ class Player extends GameObject {
   }
 
   void onObjectCollision(RenderObject o) {
-    if (o is InteractiveObject == false || hoverobject != null || hoverobject == o) return;
+    if (!(o is InteractiveObject) || hoverobject != null || hoverobject == o) return;
     InteractiveObject so = o;
     so.onOver(this);
     hoverobject = so;

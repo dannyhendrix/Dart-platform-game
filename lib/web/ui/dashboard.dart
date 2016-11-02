@@ -13,23 +13,26 @@ class Dashboard extends GameOutput {
   MessageController messages;
   Dashboard() {
     resourceManager = new ResourceManagerWeb();
-    game = new Game(resourceManager, this);
-    inputController = new InputControllerWebKeyboard(game);
     messages = new MessageController();
   }
   void init() {}
   void start() {
     resourceManager.onResourcesLoaded = _loadingFinished;
-    game.levelsource = "resources/levels/level_${game.currentlevel}.json";
 
     //load resources
-    resourceManager.loadJson("level${game.currentlevel}", game.levelsource);
+    resourceManager.loadJson("level0", "resources/levels/level_0.json");
     resourceManager.loadImage("assets", "resources/images/images.png");
     resourceManager.loadImage("player", "resources/images/c0v0a16t1uv1t80Cs1Cd.png");
+    resourceManager.loadImage("text", "resources/images/text_arial.png");
     resourceManager.startLoading();
   }
 
   void _loadingFinished() {
+    RenderLayerWebCanvas.imageText = new ImageText(resourceManager.getImage("text"));
+
+    game = new Game(resourceManager, this);
+    inputController = new InputControllerWebKeyboard(game);
+
     //when loading has finsished, display a start button
     ButtonElement dombutton = new ButtonElement();
     DivElement main = document.querySelector("#openscreen");

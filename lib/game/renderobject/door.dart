@@ -15,6 +15,9 @@ class Door extends InteractiveObject {
   int layerheight = 0; //24;
   int padding = 3;
 
+  static final RenderColor ColorText = const RenderColor(255, 255, 255);
+  static final RenderColor ColorTextBackground = const RenderColor(0, 0, 0);
+
   Door.fromJson(Game game, Map json, int offsetx, int offsety) : super(game, json['x'].toDouble() + offsetx, json['y'].toDouble() + offsety, 25, 49) {
     if (json.containsKey("link")) link = json["link"];
     if (json.containsKey("name")) name = json["name"];
@@ -22,37 +25,31 @@ class Door extends InteractiveObject {
 
     sprite = new Sprite(game.resourceManager.getImage("assets"), 0, 160, 25, 49);
 
-    //TODO: draw label for doors
-    /*
-    layerwidth = layer.ctx.measureText(name).width.ceil().toInt()+padding*2;
+    layerwidth = layer.getTextWidth(name) + padding * 2;
+    layerheight = layer.getTextHeight(name) + padding * 2;
 
-    if(layerwidth > w)
-    {
+    if (layerwidth > w) {
       w = layerwidth;
-      collision.x += (w-25)~/2;
+      collision.x += (w - 25) ~/ 2;
     }
     collision.y += layerheight;
     h += layerheight;
 
-    layer.height = h;
-    layer.width = w;
-
-    layer.ctx.fillRect(0, 0, w, 16);
-    layer.ctx.setFillColorRgb(255, 255, 255);
-    layer.ctx.fillText(name, padding, 12);
-    */
+    layer.resize(w, h);
+    layer.drawFilledRect(0, 0, w, layerheight, ColorTextBackground);
+    layer.drawText(padding, padding, name, ColorText);
   }
 
   void paint() {
     int drawx = 0;
     if (w > 25) drawx = (w - 25) ~/ 2;
 
-    sprite.drawOnPosition(drawx, layerheight, (over == true) ? 1 : 0, 0, layer);
+    sprite.drawOnPosition(drawx, layerheight, over ? 1 : 0, 0, layer);
   }
 
   void onOver(GameObject object) {
     over = true;
-    if (hidelabel == false) game.gameOutput.onGameMessage("Go to: $link");
+    if (!hidelabel) game.gameOutput.onGameMessage("Go to: $link");
     updateDrawLocation();
   }
 
