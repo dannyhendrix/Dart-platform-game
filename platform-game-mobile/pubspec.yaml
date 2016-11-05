@@ -1,5 +1,8 @@
 name: platform_game_mobile
-description: A new flutter project.
+version: 1.0.0
+author: Danny Hendrix
+description: A sample platform game, mobile interface.
+homepage: http://www.dannyhendrix.com
 dependencies:
   dart_platform_game:
     path: ../platform-game

@@ -30,7 +30,7 @@ class Dashboard extends GameOutput {
   void _loadingFinished() {
     RenderLayerWebCanvas.imageText = new ImageText(resourceManager.getImage("text"));
 
-    game = new Game(resourceManager, this);
+    game = new Game(resourceManager, this, new GameLoopWeb());
     inputController = new InputControllerWebKeyboard(game);
 
     //when loading has finsished, display a start button
