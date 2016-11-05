@@ -1,5 +1,7 @@
 name: platform_game_mobile
 description: A new flutter project.
 dependencies:
+  dart_platform_game:
+    path: ../platform-game
   flutter:
     sdk: flutter
