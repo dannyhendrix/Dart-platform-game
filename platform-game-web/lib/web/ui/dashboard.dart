@@ -44,7 +44,6 @@ class Dashboard extends GameOutput {
 
     dombutton.text = "Start!";
 
-    //messy jquery style code YAY!
     dombutton.onClick.listen((e) {
       main.style.opacity = "0.0";
       new Timer(const Duration(milliseconds: 500), () {
@@ -62,10 +61,59 @@ class Dashboard extends GameOutput {
 
         document.onKeyDown.listen(inputController.handleKey);
         document.onKeyUp.listen(inputController.handleKey);
+        if (isMobile()) addMobileControls();
       });
     });
     main.nodes.add(dombutton);
   }
+
+  static bool isMobile() {
+    String userAgent = window.navigator.userAgent;
+    List<String> mobiledevices = ["Android", "webOS", "iPhone", "iPad", "iPod", "BlackBerry", "Windows Phone"];
+
+    for (String s in mobiledevices) if (userAgent.contains(s)) return true;
+    return false;
+  }
+
+  void addMobileControls() {
+    Element elwrapper = new DivElement();
+    elwrapper.id = "touch_controls";
+    elwrapper.append(createTouchButton("Left", 37));
+    elwrapper.append(createTouchButton("Right", 39));
+    elwrapper.append(createTouchButton("Jump", 38));
+    elwrapper.append(createTouchButton("Jump2", 40));
+    elwrapper.append(createTouchButton("Enter", 13));
+    document.body.append(elwrapper);
+  }
+
+  Element createTouchButton(String text, int key, [bool icon = true]) {
+    Element el = new DivElement();
+    el.text = text;
+    el.className = "touch_control";
+    el.onTouchStart.listen((TouchEvent e) {
+      e.preventDefault();
+      el.classes.add("hover");
+      inputController.handleControl(key, true);
+    });
+    el.onTouchEnd.listen((TouchEvent e) {
+      e.preventDefault();
+      el.classes.remove("hover");
+      inputController.handleControl(key, false);
+    });
+
+    el.onMouseDown.listen((MouseEvent e) {
+      e.preventDefault();
+      el.classes.add("hover");
+      inputController.handleControl(key, true);
+    });
+    el.onMouseUp.listen((MouseEvent e) {
+      e.preventDefault();
+      el.classes.remove("hover");
+      inputController.handleControl(key, false);
+    });
+    return el;
+  }
+
   @override
   void onGameGoToLocation(String url) {
     window.location.assign(url);
@@ -75,6 +123,7 @@ class Dashboard extends GameOutput {
   void onGameMessage(String message) {
     messages.sendMessage(message);
   }
+
   @override
   void onGameLevelFinished() {
     // TODO: implement onGameLevelFinished
@@ -82,7 +131,6 @@ class Dashboard extends GameOutput {
 
   @override
   void onGameLevelLoaded() {
-
     game.camera.w = Math.min(window.innerWidth, game.level.w);
     //-38 for top bar
     game.camera.h = Math.min(window.innerHeight - 44, game.level.h);

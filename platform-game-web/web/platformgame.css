@@ -101,3 +101,7 @@ body
 {
 	background:#444;
 }
+
+#touch_controls {position:absolute; width:100%; bottom:0px; background: rgba(0, 0, 0, 0.5);}
+.touch_control {float:left; margin:10px; padding:10px 0px; width:100px; background: #EEEEEE; border-radius: 28px;}
+.touch_control.hover {background: #CC0000; color: white;}

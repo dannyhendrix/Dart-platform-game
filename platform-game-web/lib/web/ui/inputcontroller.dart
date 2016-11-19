@@ -5,10 +5,14 @@ class InputControllerWebKeyboard {
 
   InputControllerWebKeyboard(this.game);
 
-  void handleKey(KeyboardEvent event) {
+  void handleKey(KeyboardEvent event)
+  {
     int key = event.keyCode;
     bool down = event.type == "keydown"; //event.KEYDOWN
-
+    handleControl(key,down);
+  }
+  void handleControl(int key, bool down)
+  {
     if (key == 37 || key == 65) //left & a
       game.player.setMove(Player.MOVE_LEFT, down);
     if (key == 39 || key == 68) //right & d
