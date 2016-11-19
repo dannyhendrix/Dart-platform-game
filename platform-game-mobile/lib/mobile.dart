@@ -17,3 +17,4 @@ part "mobile/resourcemanager/gameloopmobile.dart";
 part "mobile/resourcemanager/rendermobile.dart";
 part "mobile/ui/dashboard.dart";
 part "mobile/ui/inputcontroller.dart";
+part "mobile/ui/button.dart";
