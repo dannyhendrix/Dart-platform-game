@@ -1,6 +1,6 @@
 part of game.web;
 
-abstract class RenderLayerWeb extends RenderLayer {
+abstract class RenderLayerWeb implements RenderLayer {
   CanvasImageSource img;
 }
 

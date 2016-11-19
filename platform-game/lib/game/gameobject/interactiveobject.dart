@@ -6,7 +6,7 @@ Platform game example
 
 part of game;
 
-abstract class InteractiveObject extends GameObject {
+abstract class InteractiveObject implements GameObject {
   bool over = false;
 
   void onOver(GameObject object) {

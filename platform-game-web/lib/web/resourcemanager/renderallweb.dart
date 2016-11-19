@@ -33,7 +33,7 @@ class RenderAllWeb extends Render {
     //repaint tiles that changed
     for (LevelTile tile in game.level.getTilesAt(game.camera.x, game.camera.y, game.camera.w, game.camera.h))
     {
-      tile.draw(layer, -game.camera.x, -game.camera.y);
+      tile.draw(layer, game.camera.x, game.camera.y);
     }
     updatetiles.clear();
   }
