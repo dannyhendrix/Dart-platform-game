@@ -9,7 +9,7 @@ part of game;
 /**
 Player class
 **/
-class Player extends GameObject {
+class Player extends GravityGameObject with DrawableAnimation {
   //controls states
   static const int MOVE_LEFT = 1;
   static const int MOVE_RIGHT = 2;
@@ -33,6 +33,7 @@ class Player extends GameObject {
   List<int> movepriority;
 
   Sprite sprite;
+  DrawableRenderLayer layer;
 
   String name = "Player";
 
@@ -72,28 +73,25 @@ class Player extends GameObject {
   InteractiveObject hoverobject;
 
   Player(Game game)
-      : super(game, 0.0, 0.0, 22, 39 + 6),
-        movepriority = new List<int>() {
+      : movepriority = new List<int>() {
+    init(game, 0.0, 0.0, 22, 39 + 6);
+    layer = game.resourceManager.createNewDrawableImage(w, h);
     collision = new CollisionField(6, 16, w - 16, h - 21);
 
     //text label
     labelwidth = layer.getTextWidth(name)+padding*2;
     labelheight = layer.getTextHeight(name)+padding*2;
 
-    
     if(labelwidth > w)    {
       w = labelwidth;
-      collision.x += ((w-22)/2).toInt();
+      collision.x += (w-22)~/2;
     }
     collision.y += labelheight;
     h += labelheight;
     
-    labeloffset = ((w-22)/2).toInt();
+    labeloffset = (w-22)~/2;
 
-    layer.resize(w,h);
-    
-    layer.drawFilledRect(0, 0, w, labelheight, ColorTextBackground);
-    layer.drawText(padding, padding, name, ColorText);
+    layer.resize(labelwidth,labelheight+6);
   }
 
   void start(Game game) {
@@ -208,17 +206,17 @@ class Player extends GameObject {
     switch (state) {
       case STATE_INAIR:
         vector.yspeed += Game.GRAVITY;
-        framechanged = changeImage(_INAIR);
+        framechanged = updateAnimation(_INAIR);
         break;
       case STATE_DEF:
-        framechanged = changeImage(_STAND);
+        framechanged = updateAnimation(_STAND);
         break;
       case STATE_WALK:
         if (look == LOOK_LEFT)
           x -= _step;
         else
           x += _step;
-        framechanged = changeImage(_WALK);
+        framechanged = updateAnimation(_WALK);
         break;
       case STATE_JUMP:
         vector.clear();
@@ -227,7 +225,7 @@ class Player extends GameObject {
         else
           this.vector.addVector(_JUMP1_RIGHT);
         changeState(STATE_INAIR);
-        framechanged = changeImage(_INAIR);
+        framechanged = updateAnimation(_INAIR);
         break;
       case STATE_JUMP2:
         vector.clear();
@@ -236,24 +234,36 @@ class Player extends GameObject {
         else
           this.vector.addVector(_JUMP2_RIGHT);
         changeState(STATE_INAIR);
-        framechanged = changeImage(_INAIR);
+        framechanged = updateAnimation(_INAIR);
         break;
     }
   }
 
-  void paint() {
-    //clear the character area (and keep the healtbar and name)
-    layer.clearArea(0, 6 + labelheight, w, h - 6 - labelheight);
-    if (look == LOOK_LEFT)
-      sprite.drawOnPosition(labeloffset, 6 + labelheight, 14 - frame, 1, layer);
-    else
-      sprite.drawOnPosition(labeloffset, 6 + labelheight, frame, 0, layer);
+  void draw(DrawableRenderLayer targetLayer, int offsetx, int offsety) {
+    paint();
+    targetLayer.drawLayer(layer, (x - offsetx).round().toInt(), (y - offsety).round().toInt());
 
+    int drawx = (x - offsetx).round().toInt()+labeloffset;
+    int drawy = (y - offsety).round().toInt()+labelheight+6;
+
+    if (look == LOOK_LEFT)
+      sprite.drawOnPosition(drawx,drawy, 14 - framex, 1, targetLayer);
+    else
+      sprite.drawOnPosition(drawx,drawy, framex, 0, targetLayer);
+  }
+
+  void paint() {
     //repaint health if health has changed since the last paint
-    if(healthchanged == false)
+    if(!healthchanged)
       return;
     healthchanged = false;
+    layer.clear();
 
+    //name
+    layer.drawFilledRect(0, 0, w, labelheight, ColorTextBackground);
+    layer.drawText(padding, padding, name, ColorText);
+
+    //health
     layer.drawFilledRect(labeloffset, labelheight, 22, 6, ColorHealthBackground);
     int healthw = ((22-2/100) * health).floor().toInt();
     layer.drawFilledRect(labeloffset+1, 1+labelheight, healthw, 4, ColorHealth);
@@ -270,7 +280,7 @@ class Player extends GameObject {
     if (isCollisionField(tile.x.toDouble(), tile.y.toDouble() - 1, LevelTile.TILE_COLLISIONFIELD)) onPlatform = true;
   }
 
-  void repairCollisionObject(RenderObject obj) {
+  void repairCollisionObject(GameObject obj) {
     super.repairCollisionObject(obj);
     if (isCollisionField(obj.x, obj.y - 1, obj.collision)) onPlatform = true;
   }
@@ -290,7 +300,7 @@ class Player extends GameObject {
     }
   }
 
-  void onObjectCollision(RenderObject o) {
+  void onObjectCollision(GameObject o) {
     if (!(o is InteractiveObject) || hoverobject != null || hoverobject == o) return;
     InteractiveObject so = o;
     so.onOver(this);

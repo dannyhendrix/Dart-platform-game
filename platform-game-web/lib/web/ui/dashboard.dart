@@ -8,7 +8,7 @@ part of game.web;
 
 class Dashboard extends GameOutput {
   Game game;
-  RenderAllWeb render;
+  RenderWeb render;
   ResourceManager resourceManager;
   InputControllerWebKeyboard inputController;
   MessageController messages;
@@ -31,7 +31,7 @@ class Dashboard extends GameOutput {
   void _loadingFinished() {
     RenderLayerWebCanvas.imageText = new ImageText(resourceManager.getImage("text"));
 
-    render = new RenderAllWeb();
+    render = new RenderWeb();
     game = new Game(resourceManager, render, this);
     inputController = new InputControllerWebKeyboard(game);
 

@@ -38,13 +38,12 @@ class Level {
     int tilesy = (h / 32).ceil().toInt();
     leveltiles = new List<LevelTile>();
 
-    LevelTile obj;
     //create all tiles in the map
     for (int iy = 0; iy < tilesy; iy++) for (int ix = 0; ix < tilesx; ix++) leveltiles.add(new LevelTile(ix * 32, iy * 32, this, json['tiles'][iy][ix]));
 
     flags = 0;
     int intkey = 0;
-    LevelObject levelobj;
+    GameObject levelobj;
 
     //create objects
     for (int i = 0; i < json['objects'].length; i++) {

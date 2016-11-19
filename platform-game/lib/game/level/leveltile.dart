@@ -13,7 +13,7 @@ class LevelTile {
   int h = 32;
 
   int _tileid = 0;
-  List<RenderObject> objects;
+  List<GameObject> objects;
   bool changed = true;
   bool hascollision = false;
   Sprite sprite;
@@ -43,13 +43,13 @@ class LevelTile {
     sprite = new Sprite(level.game.resourceManager.getImage("assets"), (_tileid - 1) * 32, 0, 32, 32);
   }
 
-  void insert(RenderObject obj) {
-    if (objects == null) objects = new List<RenderObject>();
+  void insert(GameObject obj) {
+    if (objects == null) objects = new List<GameObject>();
     objects.add(obj);
     repaint();
   }
 
-  void update(RenderObject obj) {
+  void update(GameObject obj) {
     int index = (objects == null) ? -1 : objects.indexOf(obj);
 
     //out of range
@@ -59,7 +59,7 @@ class LevelTile {
     repaint();
   }
 
-  void repairCollision(RenderObject obj) {
+  void repairCollision(GameObject obj) {
     if (hascollision) {
       obj.repairCollisionTile(this);
       return;
@@ -76,7 +76,7 @@ class LevelTile {
     }
   }
 
-  void remove(RenderObject obj) {
+  void remove(GameObject obj) {
     int index = (objects == null) ? -1 : objects.indexOf(obj);
 
     if (index == -1) return;
@@ -113,9 +113,9 @@ class LevelTile {
     if (objects == null) return;
     //draw objects
     for (int i = 0; i < objects.length; i++) {
-      if (level.game.showCollisionField == true)
-        objects[i].drawCollision(layer, x, y);
-      else
+      //if (level.game.showCollisionField == true)
+        //objects[i].drawCollision(layer, x, y);
+      //else
         objects[i].draw(layer, x, y);
     }
     return;

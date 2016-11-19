@@ -17,18 +17,17 @@ part 'game/collisionfield.dart';
 part 'game/level/level.dart';
 part 'game/level/leveltile.dart';
 
-part 'game/renderobject/renderobject.dart';
-part 'game/renderobject/gameobject.dart';
-part 'game/renderobject/player.dart';
-part 'game/renderobject/door.dart';
-part 'game/renderobject/flag.dart';
-part 'game/renderobject/interactiveobject.dart';
-part 'game/renderobject/levelobject.dart';
+part 'game/gameobject/gameobject.dart';
+part 'game/gameobject/interactiveobject.dart';
+part 'game/gameobject/player.dart';
+part 'game/gameobject/door.dart';
+part 'game/gameobject/flag.dart';
 
 part 'game/render/render.dart';
 part 'game/render/renderlayer.dart';
 part 'game/render/imagetext.dart';
 part 'game/render/sprite.dart';
+part 'game/render/drawable.dart';
 part 'game/render/animationframes.dart';
 part 'game/render/camera.dart';
 

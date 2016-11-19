@@ -1,5 +1,9 @@
 part of game.web;
 
+/**
+ * Slow redering, this is how Flutter will draw it atm :/
+ */
+
 class RenderAllWeb extends Render {
   Game game;
 

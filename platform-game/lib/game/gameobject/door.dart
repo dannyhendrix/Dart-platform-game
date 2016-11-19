@@ -6,7 +6,7 @@ Platform game example
 
 part of game;
 
-class Door extends InteractiveObject {
+class Door extends GameObject with InteractiveObject {
   String link;
   String name = "Secret location";
   bool hidelabel = false;
@@ -14,35 +14,39 @@ class Door extends InteractiveObject {
   int padding = 3;
 
   DrawableRenderLayer layerOver;
+  DrawableRenderLayer layerOut;
 
   static final RenderColor ColorText = const RenderColor(255, 255, 255);
   static final RenderColor ColorTextBackground = const RenderColor(0, 0, 0);
 
-  Door.fromJson(Game game, Map json, int offsetx, int offsety) : super(game, json['x'].toDouble() + offsetx, json['y'].toDouble() + offsety, 25, 49) {
+  Door.fromJson(Game game, Map json, int offsetx, int offsety) {
+    init(game, json['x'].toDouble() + offsetx, json['y'].toDouble() + offsety, 25, 49);
     if (json.containsKey("link")) link = json["link"];
     if (json.containsKey("name")) name = json["name"];
     if (json.containsKey("hidelabel")) hidelabel = json["hidelabel"];
 
-    sprite = new Sprite(game.resourceManager.getImage("assets"), 0, 160, 25, 49);
+    Sprite sprite = new Sprite(game.resourceManager.getImage("assets"), 0, 160, 25, 49);
 
-    int layerwidth = layer.getTextWidth(name) + padding * 2;
-    int layerheight = layer.getTextHeight(name) + padding * 2;
+    layerOut = game.resourceManager.createNewDrawableImage(w,h);
 
-    if (layerwidth > w) {
-      w = layerwidth;
+    int labelwidth = layerOut.getTextWidth(name) + padding * 2;
+    int labelheight = layerOut.getTextHeight(name) + padding * 2;
+
+    if (labelwidth > w) {
+      w = labelwidth;
       collision.x += (w - 25) ~/ 2;
     }
-    collision.y += layerheight;
-    h += layerheight;
+    collision.y += labelheight;
+    h += labelheight;
     h += 4;
 
-    layer.resize(w, h);
+    layerOut.resize(w, h);
     layerOver = game.resourceManager.createNewDrawableImage(w,h);
-    paintWithFrame(layer,layerheight, 0);
-    paintWithFrame(layerOver,layerheight,1);
+    paintWithFrame(layerOut,labelheight, sprite, 0);
+    paintWithFrame(layerOver,labelheight, sprite,1);
   }
 
-  void paintWithFrame(DrawableRenderLayer targetLayer, int layerheight, int frame)
+  void paintWithFrame(DrawableRenderLayer targetLayer, int layerheight, Sprite sprite, int frame)
   {
     int drawx = 0;
     targetLayer.clear();
@@ -55,8 +59,7 @@ class Door extends InteractiveObject {
   }
 
   void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety) {
-    paint();
-    targetlayer.drawLayer(over ? layerOver : layer, (x - offsetx).round().toInt(), (y - offsety).round().toInt());
+    targetlayer.drawLayer(over ? layerOver : layerOut, (x - offsetx).round().toInt(), (y - offsety).round().toInt());
   }
 
   void onOver(GameObject object) {

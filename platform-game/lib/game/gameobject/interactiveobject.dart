@@ -6,10 +6,8 @@ Platform game example
 
 part of game;
 
-class InteractiveObject extends LevelObject {
+abstract class InteractiveObject extends GameObject {
   bool over = false;
-
-  InteractiveObject(Game game, double x, double y, int w, int h) : super(game, x, y, w, h) {}
 
   void onOver(GameObject object) {
     over = true;
