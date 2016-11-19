@@ -18,15 +18,12 @@ class Level {
 
   Game game;
 
-  DrawableRenderLayer layer;
-
   List<LevelTile> leveltiles;
 
   //tiles that changed and should be redrawn
   List<LevelTile> updatetiles;
 
   Level(this.game) : updatetiles = new List<LevelTile>() {
-    layer = game.resourceManager.createNewDrawableImage(0, 0);
   }
 
   void loadLevel(Map json) {
@@ -40,9 +37,6 @@ class Level {
     int tilesx = (w / 32).ceil().toInt();
     int tilesy = (h / 32).ceil().toInt();
     leveltiles = new List<LevelTile>();
-
-    //create a tiled map
-    layer.resize(w, h);
 
     LevelTile obj;
     //create all tiles in the map
@@ -80,8 +74,7 @@ class Level {
         }
     }
 
-    //draw all tiles
-    for (int i = 0; i < leveltiles.length; i++) leveltiles[i].draw(layer, x, y);
+    game.render.changeLevelSize(w,h);
   }
 
   void start() {}
@@ -108,14 +101,6 @@ class Level {
       }
   }
 
-  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety) {
-    //repaint tiles that changed
-    for (int i = 0; i < updatetiles.length; i++) updatetiles[i].draw(layer, x, y);
-    updatetiles.clear();
-    //repaint main layer
-    targetlayer.drawLayer(layer, x - offsetx, y - offsety);
-  }
-
   LevelTile getTileAt(int absolutex, int absolutey) {
     int tilex = (absolutex / 32).floor().toInt();
     int tiley = (absolutey / 32).floor().toInt();
@@ -123,5 +108,26 @@ class Level {
     int key = tiley * tilesx + tilex;
     if (key < 0 || key >= leveltiles.length) return null;
     return leveltiles[key];
+  }
+
+  List<LevelTile> getTilesAt(int absolutex, int absolutey, int w, int h) {
+    int tilex = (absolutex / 32).floor().toInt();
+    int tiley = (absolutey / 32).floor().toInt();
+    int tilex2 = tilex+(w / 32).ceil().toInt();
+    int tiley2 = tiley+(h / 32).ceil().toInt();
+
+    int tilesx = (w / 32).ceil().toInt();
+    int key;
+
+    List<LevelTile> result = [];
+    for(int y = tiley; y < tiley2; y++)
+    {
+      key = y * tilesx + tilex;
+      for (int x = tilex; x < tilex2; x++)
+      {
+        result.add(leveltiles[key++]);
+      }
+    }
+    return result;
   }
 }

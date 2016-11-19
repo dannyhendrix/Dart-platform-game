@@ -89,7 +89,6 @@ class LevelTile {
   void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety) {
     if (changed == true) paint();
     changed = false;
-    targetlayer.clearArea(x, y, 32, 32);
     targetlayer.drawLayer(layer, x - offsetx, y - offsety);
   }
 
@@ -125,6 +124,6 @@ class LevelTile {
   void repaint() {
     if (changed) return;
     changed = true;
-    level.updatetiles.add(this);
+    level.game.render.repaintTile(this);
   }
 }

@@ -25,9 +25,8 @@ class Game {
 
   static final double GRAVITY = 0.3;
 
-  Game(this.resourceManager, this.gameOutput)
-      : render = new Render(),
-        gameobjects = new List<GameObject>(),
+  Game(this.resourceManager, this.render, this.gameOutput)
+      : gameobjects = new List<GameObject>(),
         camera = new Camera() {
     level = new Level(this);
     player = new Player(this);
@@ -46,7 +45,6 @@ class Game {
 
     loadLevel();
 
-    //window.requestAnimationFrame(loop);
     gameloop.play();
 
     gameOutput.onGameMessage("Hello there :). Messages will pop-up here.");
@@ -54,8 +52,6 @@ class Game {
 
   void loadLevel() {
     level.loadLevel(resourceManager.getJson("level$currentlevel"));
-
-    render.start(this);
 
     //place in middle of first tile
     player.reset(level.startx.toDouble(), level.starty.toDouble());
@@ -82,6 +78,6 @@ class Game {
   void update(int looptime) {
     for (int i = 0; i < gameobjects.length; i++) gameobjects[i].update();
 
-    render.update();
+    render.render();
   }
 }

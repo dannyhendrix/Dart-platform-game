@@ -8,6 +8,8 @@ import "package:dart_platform_game/game.dart";
 
 part "web/resourcemanager/resourcemanagerweb.dart";
 part 'web/resourcemanager/renderlayerweb.dart';
+part 'web/resourcemanager/renderweb.dart';
+part 'web/resourcemanager/renderallweb.dart';
 part 'web/ui/dashboard.dart';
 part 'web/ui/inputcontroller.dart';
 part 'web/ui/messagecontroller.dart';

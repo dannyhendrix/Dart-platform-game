@@ -11,9 +11,9 @@ class Door extends InteractiveObject {
   String name = "Secret location";
   bool hidelabel = false;
 
-  int layerwidth = 0;
-  int layerheight = 0; //24;
   int padding = 3;
+
+  DrawableRenderLayer layerOver;
 
   static final RenderColor ColorText = const RenderColor(255, 255, 255);
   static final RenderColor ColorTextBackground = const RenderColor(0, 0, 0);
@@ -25,8 +25,8 @@ class Door extends InteractiveObject {
 
     sprite = new Sprite(game.resourceManager.getImage("assets"), 0, 160, 25, 49);
 
-    layerwidth = layer.getTextWidth(name) + padding * 2;
-    layerheight = layer.getTextHeight(name) + padding * 2;
+    int layerwidth = layer.getTextWidth(name) + padding * 2;
+    int layerheight = layer.getTextHeight(name) + padding * 2;
 
     if (layerwidth > w) {
       w = layerwidth;
@@ -34,17 +34,29 @@ class Door extends InteractiveObject {
     }
     collision.y += layerheight;
     h += layerheight;
+    h += 4;
 
     layer.resize(w, h);
-    layer.drawFilledRect(0, 0, w, layerheight, ColorTextBackground);
-    layer.drawText(padding, padding, name, ColorText);
+    layerOver = game.resourceManager.createNewDrawableImage(w,h);
+    paintWithFrame(layer,layerheight, 0);
+    paintWithFrame(layerOver,layerheight,1);
   }
 
-  void paint() {
+  void paintWithFrame(DrawableRenderLayer targetLayer, int layerheight, int frame)
+  {
     int drawx = 0;
+    targetLayer.clear();
+    targetLayer.drawFilledRect(0, 0, w, layerheight, ColorTextBackground);
+    targetLayer.drawText(padding, padding, name, ColorText);
+
     if (w > 25) drawx = (w - 25) ~/ 2;
 
-    sprite.drawOnPosition(drawx, layerheight, over ? 1 : 0, 0, layer);
+    sprite.drawOnPosition(drawx, layerheight+4, frame, 0, targetLayer);
+  }
+
+  void draw(DrawableRenderLayer targetlayer, int offsetx, int offsety) {
+    paint();
+    targetlayer.drawLayer(over ? layerOver : layer, (x - offsetx).round().toInt(), (y - offsety).round().toInt());
   }
 
   void onOver(GameObject object) {

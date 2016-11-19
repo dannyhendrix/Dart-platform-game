@@ -8,6 +8,7 @@ part of game.web;
 
 class Dashboard extends GameOutput {
   Game game;
+  RenderAllWeb render;
   ResourceManager resourceManager;
   InputControllerWebKeyboard inputController;
   MessageController messages;
@@ -30,7 +31,8 @@ class Dashboard extends GameOutput {
   void _loadingFinished() {
     RenderLayerWebCanvas.imageText = new ImageText(resourceManager.getImage("text"));
 
-    game = new Game(resourceManager, this);
+    render = new RenderAllWeb();
+    game = new Game(resourceManager, render, this);
     inputController = new InputControllerWebKeyboard(game);
 
     //when loading has finsished, display a start button
@@ -50,7 +52,7 @@ class Dashboard extends GameOutput {
 
         game.start();
 
-        RenderLayerWebCanvas gameLayer = game.render.layer;
+        RenderLayerWebCanvas gameLayer = render.layer;
         gameLayer.el_canvas.id = "game";
         //fade-in effect
         gameLayer.el_canvas.style.opacity = "0.0";
@@ -89,13 +91,13 @@ class Dashboard extends GameOutput {
     int offsettop = 38;
     if (game.camera.h == game.level.h) offsettop = (window.innerHeight - 44 - game.camera.h) ~/ 2;
 
-    RenderLayerWebCanvas gameLayer = game.render.layer;
+    RenderLayerWebCanvas gameLayer = render.layer;
     gameLayer.el_canvas.style.marginTop = "${offsettop}px";
 
     int minborder = Math.min(game.camera.w, game.camera.h);
     game.camera.border = (minborder * 0.3).toInt(); //10%
 
-    game.render.layer.resize(game.camera.w, game.camera.h);
+    render.layer.resize(game.camera.w, game.camera.h);
   }
 
   @override
