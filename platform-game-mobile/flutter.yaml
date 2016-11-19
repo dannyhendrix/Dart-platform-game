@@ -1,0 +1,16 @@
+name: platform_game_mobile
+uses-material-design: true
+assets:
+  - resources/images/images.png
+  - resources/images/player.png
+  - resources/images/bg.png
+  - resources/images/bgDark.png
+  - resources/images/text_arial.png
+  - resources/levels/level_0.json
+  - resources/levels/level_1.json
+  - resources/levels/level_2.json
+  - resources/levels/level_3.json
+  - resources/levels/level_4.json
+  - resources/levels/level_5.json
+  - resources/levels/level_6.json
+  - resources/levels/small_level.json

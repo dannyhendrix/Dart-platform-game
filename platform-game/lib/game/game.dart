@@ -25,7 +25,7 @@ class Game {
 
   static final double GRAVITY = 0.3;
 
-  Game(this.resourceManager, this.render, this.gameOutput)
+  Game(this.resourceManager, this.render, this.gameOutput, this.gameloop)
       : gameobjects = new List<GameObject>(),
         camera = new Camera() {
     level = new Level(this);
@@ -33,7 +33,7 @@ class Game {
   }
 
   void start() {
-    gameloop = new GameLoop(update);
+    gameloop.update = update;
     //create sprites
     //create gameobjects
     level.start();
