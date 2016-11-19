@@ -124,6 +124,7 @@ class Level {
       key = y * tilesx + tilex;
       for (int x = tilex; x < tilex2; x++)
       {
+        if (leveltiles.length <= key || key < 0) continue;
         result.add(leveltiles[key++]);
       }
     }

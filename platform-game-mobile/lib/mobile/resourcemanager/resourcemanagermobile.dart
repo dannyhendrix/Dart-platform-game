@@ -44,7 +44,7 @@ class JsonControllerMobile<K> extends ResourceMapping<K, Map> {
   void load(K name, String path) {
     if (isLoaded(name)) onResourceLoaded(name, get(name));
 
-    rootBundle.loadString(path).then((String jsonText){
+    rootBundle.loadString(path).then((String jsonText) {
       Map json = JSON.decode(jsonText);
       set(name, json);
       onResourceLoaded(name, json);
@@ -58,7 +58,7 @@ class ImageControllerMobile<K> extends ResourceMapping<K, RenderLayer> {
     if (isLoaded(name)) onResourceLoaded(name, get(name));
 
     rootBundle.load(path).then((ByteData bytes) {
-      decodeImageFromList(bytes.buffer.asUint8List()).then((ui.Image img){
+      decodeImageFromList(bytes.buffer.asUint8List()).then((ui.Image img) {
         RenderLayerMobileImage renderLayer = new RenderLayerMobileImage(img);
         set(name, renderLayer);
         onResourceLoaded(name, renderLayer);
