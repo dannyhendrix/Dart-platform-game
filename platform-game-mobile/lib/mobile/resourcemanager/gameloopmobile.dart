@@ -25,7 +25,7 @@ class GameLoopMobile extends GameLoop{
     super.loop(looptime);
     if(!stopping)
     {
-      RenderLayerMobileCanvas gameLayer = dashboard.game.render.layer;
+      RenderLayerMobileCanvas gameLayer = dashboard.render.layer;
 
       ui.SceneBuilder sceneBuilder = new ui.SceneBuilder()
         ..pushTransform(deviceTransform)

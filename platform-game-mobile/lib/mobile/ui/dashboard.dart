@@ -8,6 +8,7 @@ part of game.mobile;
 
 class Dashboard extends GameOutput {
   Game game;
+  RenderMobile render;
   ResourceManager resourceManager;
   InputControllerWebKeyboard inputController;
   //MessageController messages;
@@ -29,37 +30,13 @@ class Dashboard extends GameOutput {
 
   void _loadingFinished() {
     RenderLayerMobileCanvas.imageText = new ImageText(resourceManager.getImage("text"));
-    print("loading complete");
 
-    DrawableRenderLayer layer1 = new RenderLayerMobileCanvas.withSize(100,100);
-    RenderLayer layer2 = resourceManager.getImage("player");
-
-    layer1.drawLayer(layer2, 0,0);
-
-    RenderLayerMobileCanvas gameLayer = layer1;
-
-
-    final double devicePixelRatio = ui.window.devicePixelRatio;
-    var deviceTransform = new Float64List(16)
-      ..[0] = devicePixelRatio
-      ..[5] = devicePixelRatio
-      ..[10] = 1.0
-      ..[15] = 1.0;
-
-    ui.SceneBuilder sceneBuilder = new ui.SceneBuilder()
-      ..pushTransform(deviceTransform)
-      ..addPicture(Offset.zero, gameLayer.picture)
-      ..pop();
-
-    ui.window.render(sceneBuilder.build());
-    ui.window.scheduleFrame();
-
-
-    game = new Game(resourceManager, this, new GameLoopMobile(this));
+    render = new RenderMobile();
+    game = new Game(resourceManager, render, this, new GameLoopMobile(this));
     inputController = new InputControllerWebKeyboard(game);
 
     game.start();
-
+    game.player.setMove(Player.MOVE_RIGHT, true);
 
   }
   @override
@@ -81,16 +58,17 @@ class Dashboard extends GameOutput {
   void onGameLevelLoaded() {
     print("level loaded");
     game.gameloop.stop();
-    return;
+
     Size size = ui.window.physicalSize;
-    game.camera.w = Math.min(size.width, game.level.w);
+    game.camera.w = 300;//Math.min(size.width, game.level.w);
     //-38 for top bar
-    game.camera.h = Math.min(size.height, game.level.h);
+    game.camera.h = 300;//Math.min(size.height, game.level.h);
 
     int minborder = Math.min(game.camera.w, game.camera.h);
     game.camera.border = (minborder * 0.3).toInt(); //10%
 
-    game.render.layer.resize(game.camera.w, game.camera.h);
+    render.layer.resize(game.camera.w, game.camera.h);
+
   }
 
   @override

@@ -14,5 +14,6 @@ import 'package:dart_platform_game/utils.dart';
 part "mobile/resourcemanager/renderlayermobile.dart";
 part "mobile/resourcemanager/resourcemanagermobile.dart";
 part "mobile/resourcemanager/gameloopmobile.dart";
+part "mobile/resourcemanager/rendermobile.dart";
 part "mobile/ui/dashboard.dart";
 part "mobile/ui/inputcontroller.dart";

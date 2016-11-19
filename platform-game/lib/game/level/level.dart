@@ -109,11 +109,11 @@ class Level {
     return leveltiles[key];
   }
 
-  List<LevelTile> getTilesAt(int absolutex, int absolutey, int w, int h) {
+  List<LevelTile> getTilesAt(int absolutex, int absolutey, int absolutew, int absoluteh) {
     int tilex = (absolutex / 32).floor().toInt();
     int tiley = (absolutey / 32).floor().toInt();
-    int tilex2 = tilex+(w / 32).ceil().toInt();
-    int tiley2 = tiley+(h / 32).ceil().toInt();
+    int tilex2 = tilex+(absolutew / 32).ceil().toInt();
+    int tiley2 = tiley+(absoluteh / 32).ceil().toInt();
 
     int tilesx = (w / 32).ceil().toInt();
     int key;
@@ -124,6 +124,7 @@ class Level {
       key = y * tilesx + tilex;
       for (int x = tilex; x < tilex2; x++)
       {
+        if (leveltiles.length <= key || key < 0) continue;
         result.add(leveltiles[key++]);
       }
     }
