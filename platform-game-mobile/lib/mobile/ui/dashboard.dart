@@ -58,7 +58,7 @@ class Dashboard extends GameOutput {
     ui.window.onPointerDataPacket = (ui.PointerDataPacket packet) {
       for (MobileButton button in buttons) {
         bool isDown = false;
-        for (ui.PointerData pointer in packet.pointers) {
+        for (ui.PointerData pointer in packet.data) {
           bool down = pointer.change == ui.PointerChange.down || pointer.change == ui.PointerChange.move;
           bool inRect = button.area.contains(new Point(pointer.physicalX / devicePixelRatio, pointer.physicalY / devicePixelRatio));
           if (inRect && down)

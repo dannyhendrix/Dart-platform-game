@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:platform_game_mobile/mobile.dart';
+import 'mobile.dart';
 
 void main() {
   Dashboard db = new Dashboard();

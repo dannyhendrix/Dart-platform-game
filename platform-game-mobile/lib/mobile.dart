@@ -3,6 +3,7 @@ library game.mobile;
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:math' as Math;
